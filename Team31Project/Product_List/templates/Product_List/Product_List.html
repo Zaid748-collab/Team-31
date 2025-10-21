@@ -1,8 +1,23 @@
 {% extends 'base.html' %}
 
-{% block title %}About Us{% endblock %}
+{% block title %}Product List{% endblock %}
 
 {% block content %}
-<h2>This is the Product_List app</h2>
-<p>Testing</p>
+  <h2>Available Products</h2>
+  <ul>
+    {% for product in products %}
+      <li>
+        <strong>{{ product.name }}</strong><br>
+        {{ product.description|linebreaks }}<br>
+        £{{ product.price }}<br>
+        {% if product.image_url %}
+          <img src="{{ product.image_url }}" alt="{{ product.name }}" style="max-width: 200px;"><br>
+        {% endif %}
+        Stock: {{ product.quantity_in_stock }}<br>
+        Type: {{ product.type }}
+      </li>
+    {% empty %}
+      <li>No products available.</li>
+    {% endfor %}
+  </ul>
 {% endblock %}
