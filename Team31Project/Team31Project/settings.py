@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-$r2mw#h5^iu(1@zakpuxhr@5d)!ym&!9*w4ruxa##!9msm$%v2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ 'cs2team31.cs2410-web01pvm.aston.ac.uk' ]
+ALLOWED_HOSTS = [ 'cs2team31.cs2410-web01pvm.aston.ac.uk','127.0.0.1' ]
 
 
 # Application definition
@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'Checkout',
     'cloudinary',
     'cloudinary_storage',
-
+    'Profile',
 ]
 
 MIDDLEWARE = [
