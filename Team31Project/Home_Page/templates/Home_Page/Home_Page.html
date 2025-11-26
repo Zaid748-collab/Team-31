@@ -1,8 +1,27 @@
 {% extends 'base.html' %}
-
-{% block title %}About Us{% endblock %}
+{% block title %}Home · {{ brand_name }}{% endblock %}
 
 {% block content %}
-<h2>This is the Home_Page app</h2>
-<p>Testing</p>
+<section class="hero">
+  <h1>{{ brand_tagline }}</h1>
+  <form action="/products/" method="get" class="search">
+    <input name="q" type="search" placeholder="Search products…" aria-label="Search products">
+    <button type="submit">Search</button>
+  </form>
+</section>
+
+<section class="cats">
+  <h2>Shop by category</h2>
+  <div class="grid">
+    {% for c in categories %}
+      <a class="card" href="/products/?category={{ c.slug|default:c.name|slugify }}">
+        <div class="card-body">
+          <h3>{{ c.name }}</h3>
+        </div>
+      </a>
+    {% empty %}
+      <p>No categories yet.</p>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}

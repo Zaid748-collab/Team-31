@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-$r2mw#h5^iu(1@zakpuxhr@5d)!ym&!9*w4ruxa##!9msm$%v2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -86,23 +86,16 @@ WSGI_APPLICATION = 'Team31Project.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': BASE_DIR / 'db.sqlite3',
- 
         'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.postgresql'),
-
         'NAME': os.environ.get('DB_NAME'),
-
         'USER': os.environ.get('DB_USER'),
-
         'PASSWORD': os.environ.get('DB_PASSWORD'),
-
         'HOST': os.environ.get('DB_HOST'),
-        
         'PORT': os.environ.get('DB_PORT'),
-
     }
 }
+
+
 
 
 # Password validation

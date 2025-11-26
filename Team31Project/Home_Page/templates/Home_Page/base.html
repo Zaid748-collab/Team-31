@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}{{ brand_name }}{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {% load static %}
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="logo" href="{% url 'home' %}">{{ brand_name }}</a>
+      <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="/products/">Products</a>
+        <a href="/About_Us/">About</a>
+        <a href="/Contact_Us/">Contact</a>
+        <a href="/User_Basket/">Basket</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <div class="container">© {{ brand_name }} {{ now|date:"Y" }}</div>
+  </footer>
+</body>
+</html>
