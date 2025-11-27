@@ -1,8 +1,86 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}About Us{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
 {% block content %}
-<h2>This is the About_Us app</h2>
-<p>Testing</p>
+
+<div class="about-container">
+
+    <h2>About Aston Tech Club</h2>
+
+    <p>
+        Aston Tech Club is your go-to online store for quality computer components and accessories. 
+        Founded by tech enthusiasts, we are passionate about providing top-notch products that 
+        empower our customers to build and upgrade their PCs with confidence.
+    </p>
+
+    <p>
+        Our mission is to make technology accessible and affordable for everyone. 
+        We carefully curate our product selection to ensure that we offer only the best 
+        components from trusted brands. Whether you're a seasoned builder or a first-time buyer, 
+        we are here to support you every step of the way.
+    </p>
+
+    <p>
+        At Aston Tech Club, we believe in exceptional customer service. 
+        Our knowledgeable team is always ready to assist you with any questions or concerns 
+        you may have. We strive to create a seamless shopping experience, from browsing our 
+        user-friendly website to fast and reliable shipping.
+    </p>
+
+    <!-- Main Image -->
+    <div class="about-flex">
+        <div class="about-image">
+            <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269912/banner-tech_ebrojp.jpg" alt="Aston Tech Club Banner">
+        </div>
+
+        <div class="about-text">
+            <h3>What We Offer</h3>
+            <ul>
+                <li>PC components and upgrades</li>
+                <li>Reliable peripherals and accessories</li>
+                <li>User-friendly store experience</li>
+                <li>Clean and simple navigation</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Feature Circles -->
+    <div class="features-row">
+
+        <div class="feature-box">
+            <div class="feature-circle">
+                <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764076078/cart_adnbat.png" alt="Cart Icon">
+            </div>
+            <p class="feature-title">Quality Products</p>
+            <p class="feature-sub">Carefully selected items</p>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-circle">
+                <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764277969/computer-pc-icon-logo-design_775854-1632_xlhxoa.png" alt="PC Icon">
+            </div>
+            <p class="feature-title">Easy Shopping</p>
+            <p class="feature-sub">Simple and intuitive</p>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-circle">
+                <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764277973/premium-quality-product-label-logo-sign-hd-png-7040816947076730sm8gp383m_qdxb6r.png" alt="Premium Quality">
+            </div>
+            <p class="feature-title">Tech-Focused</p>
+            <p class="feature-sub">Specialised in electronics</p>
+        </div>
+
+    </div>
+
+    <div class="about-footer-space"></div>
+
+</div>
+
 {% endblock %}

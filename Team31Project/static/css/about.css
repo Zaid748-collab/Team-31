@@ -1,0 +1,135 @@
+/* Main container */
+.about-container {
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.about-container h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.about-container p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* =========================== */
+/* Flex section: image + list  */
+/* =========================== */
+
+.about-flex {
+    display: flex;
+    gap: 30px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.about-text {
+    flex: 1;
+    min-width: 250px;
+}
+
+.about-text h3 {
+    margin-bottom: 10px;
+    font-size: 22px;
+}
+
+.about-text ul {
+    margin-left: 20px;
+    list-style: disc;
+    line-height: 1.7;
+}
+
+/* =========================== */
+/* Feature circles section     */
+/* =========================== */
+
+.features-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 50px 0;
+    flex-wrap: wrap;
+}
+
+.feature-box {
+    text-align: center;
+    flex: 1;
+    min-width: 220px;
+}
+
+.feature-circle {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #ddd;
+}
+
+.feature-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.feature-title {
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+.feature-sub {
+    margin-top: 4px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Footer placeholder */
+.about-footer-space {
+    height: 80px;
+    background: #eee;
+    margin-top: 50px;
+    border-radius: 6px;
+}
+
+/* =========================== */
+/* Responsive adjustments      */
+/* =========================== */
+
+@media (max-width: 768px) {
+    .about-flex {
+        flex-direction: column;
+    }
+
+    .features-row {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .feature-box {
+        margin-bottom: 25px;
+    }
+}
+
+.about-image img {
+    width: 100%;
+    max-width: 800px;   /* controls size */
+    border-radius: 12px;
+    display: block;
+    margin: 0 auto;     /* centers the image */
+}
+
+.about-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
