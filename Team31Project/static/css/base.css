@@ -5,7 +5,7 @@ body {
   padding: 0;
 }
 
-/* Navbar */
+
 .navbar {
   background-color: #333;
   padding: 1rem;
@@ -34,7 +34,7 @@ body {
   text-decoration: underline;
 }
 
-/* Icons */
+
 .nav-icon {
   width: 24px;
   height: 24px;
@@ -46,7 +46,7 @@ body {
   min-height: 100vh;
 }
 
-/* Basket popup */
+
 .basket-popup {
   position: fixed;
   bottom: 20px;
