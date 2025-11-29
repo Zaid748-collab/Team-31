@@ -6,6 +6,7 @@
 <h2>Profile</h2>
 
 {% if request.user.is_authenticated %}
+    <a href="{% url 'profile_edit' %}" class="btn btn-primary">Edit Profile</a>
     <div style="display:flex; gap:2rem; align-items:flex-start;">
 
         <!-- Profile picture -->
