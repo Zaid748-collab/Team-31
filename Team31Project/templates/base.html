@@ -1,36 +1,127 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/base.css' %}">
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}My Site{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  
+
+
+  {% block extra_css %}{% endblock %}
 </head>
+
 <body>
 
+  <!-- navbar -->
   <header>
-    <nav style="background-color: #333; padding: 1rem;">
-      <ul style="list-style: none; display: flex; gap: 1rem; margin: 0; padding: 0;">
-        <li><a href="{% url 'home' %}" style="color: white; text-decoration: none;">Home</a></li>
-        <li><a href="{% url 'about' %}" style="color: white; text-decoration: none;">About Us</a></li>
-        <li><a href="{% url 'contact' %}" style="color: white; text-decoration: none;">Contact Us</a></li>
-        <li><a href="{% url 'products' %}" style="color: white; text-decoration: none;">Products</a></li>
-        <li><a href="{% url 'signup' %}" style="color: white; text-decoration: none;">Sign Up</a></li>
-        <li><a href="{% url 'basket' %}" style="color: white; text-decoration: none;">Basket</a></li>
-        <li><a href="{% url 'orders' %}" style="color: white; text-decoration: none;">Orders</a></li>
-        <li><a href="{% url 'checkout' %}" style="color: white; text-decoration: none;">Checkout</a></li>
-        <li><a href="{% url 'profile' %}" style="color: white; text-decoration: none;">Profile</a></li>
-        <li><a href="/admin/" style="color: white; text-decoration: none;">Admin</a></li>
+    <nav class="navbar">
+      <ul class="nav-list">
+        <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+        <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
+        <li><a href="{% url 'contact' %}" class="nav-link">Contact Us</a></li>
+        <li><a href="{% url 'products' %}" class="nav-link">Products</a></li>
+        <li><a href="{% url 'signup' %}" class="nav-link">Sign Up</a></li>
+        <li><a href="{% url 'orders' %}" class="nav-link">Orders</a></li>
+        <li><a href="{% url 'checkout' %}" class="nav-link">Checkout</a></li>
+        <li><a href="/admin/" class="nav-link">Admin</a></li>
+      </ul>
+
+      <!-- Icons -->
+      <ul class="nav-icons">
+        <li>
+          <a href="#" id="basket-icon" class="nav-link">
+            <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764076078/cart_adnbat.png"
+                 alt="Basket" class="nav-icon">
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'profile' %}" class="nav-link">
+            <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764076103/user_g8rtxx.png"
+                 alt="Profile" class="nav-icon">
+          </a>
+        </li>
       </ul>
     </nav>
   </header>
 
-  <main style="padding: 2rem;">
+  <main class="main-content">
     {% block content %}
     {% endblock %}
   </main>
+
+  <!-- Basket Popup -->
+<div id="basket-popup" class="basket-popup">
+  <div class="basket-header">
+    <h3>Your Basket</h3>
+    <button id="close-basket" class="close-btn">&times;</button>
+  </div>
+  <div id="basket-items" class="basket-items">
+    {% if db_mode %}
+      {% if items %}
+        <ul>
+          {% for item in items %}
+            <li class="basket-item">
+              <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="basket-item-img">
+              <span class="basket-item-name">{{ item.product.name }}</span>
+              <span class="basket-item-price">£{{ item.product.price }}</span>
+              <span class="basket-item-qty">x{{ item.quantity }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="basket-total">
+          Total: £{{ total }}
+        </div>
+      {% else %}
+        <div class="basket-empty">
+          <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764096011/empty-cart_vdvkkl.png" alt="Empty Basket" class="basket-empty-img">
+          <p>Your basket is empty</p>
+        </div>
+      {% endif %}
+    {% else %}
+      {% if items %}
+        <ul>
+          {% for item in items %}
+            <li class="basket-item">
+              <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="basket-item-img">
+              <span class="basket-item-name">{{ item.product.name }}</span>
+              <span class="basket-item-price">£{{ item.product.price }}</span>
+              <span class="basket-item-qty">x{{ item.quantity }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="basket-total">
+          Total: £{{ total }}
+        </div>
+      {% else %}
+        <div class="basket-empty">
+          <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764096011/empty-cart_vdvkkl.png" alt="Empty Basket" class="basket-empty-img">
+          <p>Your basket is empty</p>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+  <!-- Popup toggle script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const basketIcon = document.getElementById("basket-icon");
+      const basketPopup = document.getElementById("basket-popup");
+      const closeBtn = document.getElementById("close-basket");
+
+      basketIcon.addEventListener("click", function(e) {
+        e.preventDefault();
+        basketPopup.style.display = "flex"; 
+      });
+
+      closeBtn.addEventListener("click", function() {
+        basketPopup.style.display = "none";
+      });
+    });
+  </script>
 
 </body>
 </html>

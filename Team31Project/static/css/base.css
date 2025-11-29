@@ -1,20 +1,132 @@
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: linear-gradient(to bottom right, #90ee90, #87ceeb);
+  background: linear-gradient(to bottom, #600064, #ffffff);
   margin: 0;
   padding: 0;
 }
 
-nav {
+/* Navbar */
+.navbar {
   background-color: #333;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-nav a {
+.nav-list,
+.nav-icons {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
   color: white;
   text-decoration: none;
-  padding: 0.5rem;
+  display: flex;
+  align-items: center;
 }
 
-nav a:hover {
+.nav-link:hover {
   text-decoration: underline;
+}
+
+/* Icons */
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+.main-content {
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+/* Basket popup */
+.basket-popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  max-height: 400px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.basket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #333;
+  color: white;
+  padding: 0.5rem;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.basket-items {
+  padding: 1rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.basket-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.basket-item-img {
+  width: 40px;
+  height: 40px;
+  margin-right: 0.5rem;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.basket-item-name {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.basket-item-price,
+.basket-item-qty {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.basket-total {
+  font-weight: bold;
+  padding-top: 0.5rem;
+  border-top: 1px solid #ccc;
+  text-align: right;
+}
+
+.basket-empty {
+  text-align: center;
+  padding: 1rem;
+  color: #555;
+}
+
+.basket-empty-img {
+  width: 80px;
+  height: auto;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
 }
