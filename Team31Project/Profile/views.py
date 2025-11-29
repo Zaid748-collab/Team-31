@@ -5,14 +5,14 @@ from django.contrib import messages
 from .forms import ProfileForm
 
 User = get_user_model()
-@login_required
+# @login_required
 def profile_view(request):
     user = request.user if request.user.is_authenticated else None
     context = {
         'user': user,
     } 
     return render(request, 'profile/profile.html', context)
-@login_required
+# @login_required
 def edit_profile(request):
     user = request.user
     old_email = user.email
