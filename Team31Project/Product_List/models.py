@@ -12,4 +12,4 @@ class Product(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'Stock'
+        db_table = 'Product'

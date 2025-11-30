@@ -1,8 +1,19 @@
-{% extends 'base.html' %}
-
-{% block title %}Your Basket{% endblock %}
-
-{% block content %}
 <h2>Your Basket</h2>
-<p>This is the basket page placeholder.</p>
-{% endblock %}
+
+{% if db_mode %}
+  <ul>
+    {% for item in items %}
+      <li>{{ item.product_id }} – Quantity: {{ item.quantity }}</li>
+    {% empty %}
+      <li>Your basket is empty.</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <ul>
+    {% for item in items %}
+      <li>{{ item.product.name }} – Quantity: {{ item.quantity }}</li>
+    {% empty %}
+      <li>Your basket is empty.</li>
+    {% endfor %}
+  </ul>
+{% endif %}

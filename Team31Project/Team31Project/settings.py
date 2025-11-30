@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-$r2mw#h5^iu(1@zakpuxhr@5d)!ym&!9*w4ruxa##!9msm$%v2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [ 'cs2team31.cs2410-web01pvm.aston.ac.uk','127.0.0.1' ]
 
 
 # Application definition
@@ -48,7 +48,10 @@ INSTALLED_APPS = [
     'Sign_Up',
     'User_Basket',
     'Previous_Orders',
-    'Checkout'
+    'Checkout',
+    'cloudinary',
+    'cloudinary_storage',
+    'Profile',
 ]
 
 MIDDLEWARE = [
@@ -94,6 +97,14 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT'),
     }
 }
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 
