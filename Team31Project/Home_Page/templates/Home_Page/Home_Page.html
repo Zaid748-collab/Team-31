@@ -1,27 +1,66 @@
-{% extends 'base.html' %}
-{% block title %}Home · {{ brand_name }}{% endblock %}
+{% extends "Home_Page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 
 {% block content %}
+<!-- ===== HERO SECTION ===== -->
 <section class="hero">
-  <h1>{{ brand_tagline }}</h1>
-  <form action="/products/" method="get" class="search">
-    <input name="q" type="search" placeholder="Search products…" aria-label="Search products">
-    <button type="submit">Search</button>
-  </form>
-</section>
-
-<section class="cats">
-  <h2>Shop by category</h2>
-  <div class="grid">
-    {% for c in categories %}
-      <a class="card" href="/products/?category={{ c.slug|default:c.name|slugify }}">
-        <div class="card-body">
-          <h3>{{ c.name }}</h3>
-        </div>
-      </a>
-    {% empty %}
-      <p>No categories yet.</p>
-    {% endfor %}
+  <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269912/banner-tech_ebroijp.jpg" alt="Tech Banner" class="hero-img">
+  <div class="hero-text">
+    <h1>Welcome to AstonTechHub</h1>
+    <p>Your one-stop shop for computer components and accessories.</p>
   </div>
 </section>
-{% endblock %}
+
+<!-- ===== SHOP BY CATEGORY ===== -->
+<section class="categories">
+  <h2>Shop by Category</h2>
+  <div class="category-grid">
+    <div class="category-card">
+      <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269925/laptop-category_fzur8j.jpg" alt="Laptops">
+      <h3>Laptops</h3>
+    </div>
+
+    <div class="category-card">
+      <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269920/gpu-category_gggufd.jpg" alt="GPUs">
+      <h3>Graphics Cards</h3>
+    </div>
+
+    <div class="category-card">
+      <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269907/accessories_zw8sss.jpg" alt="Accessories">
+      <h3>Accessories</h3>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURED PRODUCTS ===== -->
+<section class="featured">
+  <h2>Featured Products</h2>
+  <div class="product-grid">
+    <div class="product-card">
+      <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269916/featured-product_wvnas5.jpg" alt="Gaming PC">
+      <p>High-Performance Gaming PC</p>
+      <span>£1499.99</span>
+      <button class="cta-btn">Shop Now</button>
+    </div>
+
+    <div class="product-card">
+      <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269920/gpu-category_gggufd.jpg" alt="GPU">
+      <p>RTX 4070 GPU</p>
+      <span>£599.99</span>
+      <button class="cta-btn">View Details</button>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+
+<footer>
+  <p>© 2025 AstonTechHub. All Rights Reserved.</p>
+  <p>
+    <a href="#">Privacy Policy</a> |
+    <a href="#">Terms of Service</a>
+  </p>
+</footer>

@@ -1,20 +1,123 @@
+/* ===== Global Fonts & Body ===== */
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #3d76cc;
+  font-family: 'Poppins', sans-serif;
+  background-color: #0b0f17;
+  color: #ffffff;
   margin: 0;
   padding: 0;
 }
 
+/* ===== Navbar ===== */
+header {
+  background: linear-gradient(90deg, #0a1a2f 0%, #0e223f 50%, #111a25 100%);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  padding: 0.6rem 0;
+}
+
+.container.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+/* Logo */
+.logo {
+  height: 55px;
+  width: auto;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* Brand text */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.brand-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ff6600;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+.brand-text:hover {
+  color: #ffa64d;
+}
+
+/* Navigation links */
 nav {
-  background-color: #333;
+  display: flex;
+  align-items: center;
 }
 
 nav a {
-  color: white;
+  font-family: 'Montserrat', sans-serif;
+  color: #ffffff;
   text-decoration: none;
-  padding: 0.5rem;
+  margin: 0 15px;
+  font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 nav a:hover {
-  text-decoration: underline;
+  color: #ff6600;
+}
+
+/* ===== Mobile Responsive Navbar ===== */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  nav {
+    display: none;
+    flex-direction: column;
+    background-color: #0e223f;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  nav.active {
+    display: flex;
+  }
+
+  nav a {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* ===== Footer ===== */
+footer {
+  background-color: #0a1a2f;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #ccc;
 }
