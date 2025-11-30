@@ -4,7 +4,8 @@
 
 {% block content %}
 <h2>Create an Account</h2>
-<form method="post">
+    <form method="post">
+    {% csrf_token %}
 
     <label>First Name:</label>
     <input type="text" name="first_name" required>
@@ -57,6 +58,8 @@
 <br><br>
 
 <button type="submit">Sign Up</button>
+
+</form>
 
 
 {% endblock %}
