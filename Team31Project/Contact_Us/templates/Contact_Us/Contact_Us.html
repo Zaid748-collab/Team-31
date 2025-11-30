@@ -1,58 +1,24 @@
-{% extends 'base.html' %}
+<h1>Contact our support</h1>
 
-{% block title %}Contact Us{% endblock %}
+<form method="POST" action="">
+    {% csrf_token %}
 
+    <label>Name</label><br>
+    <input type="text" name="name"><br><br>
 
-{% block content %}
-<h1>Need help? Contact our Support</h1>
-<p class="lead">Questions sur une commande, un produit ou votre compte ? Écrivez-nous, on répond généralement sous 24 h.</p>
+    <label>Email</label><br>
+    <input type="email" name="email"><br><br>
 
-<div class="contact-grid">
-  <section>
-    <h2>Send us a message</h2>
-    <form>
-      <label>Name</label>
-      <input type="text" placeholder="Your full name" required>
+    <label>Subject</label><br>
+    <input type="text" name="subject"><br><br>
 
-      <label>Email</label>
-      <input type="email" placeholder="you@example.com" required>
+    <label>Message</label><br>
+    <textarea name="message"></textarea><br><br>
 
-      <label>Subject</label>
-      <select>
-        <option>Order issue</option>
-        <option>Product question</option>
-        <option>Technical support</option>
-        <option>Other</option>
-      </select>
+    <button type="submit">Send</button>
+</form>
 
-      <label>Message</label>
-      <textarea rows="5" placeholder="How can we help?"></textarea>
+{% if success %}
+<p style="color: green;">Message sent!</p>
+{% endif %}
 
-      <button type="button">Send</button>
-    </form>
-  </section>
-
-  <aside>
-    <h2>Contact details</h2>
-    <ul>
-      <li><strong>Email:</strong> support@team31store.com</li>
-      <li><strong>Téléphone:</strong> +44 0000 000000</li>
-      <li><strong>Adresse:</strong> Aston University, Birmingham</li>
-      <li><strong>Horaires:</strong> Mon–Fri, 09:00–18:00</li>
-    </ul>
-
-    <h3>Find us</h3>
-    <div class="map-placeholder">Map</div>
-  </aside>
-</div>
-
-<style>
-  .contact-grid { display:grid; gap:1.5rem; grid-template-columns:1fr; }
-  .contact-grid section, .contact-grid aside { background:#fff; padding:1rem; border-radius:12px; }
-  form { display:grid; gap:.75rem; }
-  input, select, textarea { width:100%; padding:.6rem; border:1px solid #ddd; border-radius:8px; }
-  button { padding:.7rem 1rem; border:0; border-radius:8px; cursor:pointer; background:#2e77d0; color:white; }
-  @media(min-width:900px){ .contact-grid{ grid-template-columns:2fr 1fr; } }
-  .map-placeholder{ height:200px; background:#e9edf3; border-radius:8px; display:flex; align-items:center; justify-content:center; }
-</style>
-{% endblock %}
