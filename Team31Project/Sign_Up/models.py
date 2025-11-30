@@ -17,7 +17,7 @@ class User(models.Model):
     email_verified = models.BooleanField(default=False)
 
     class Meta:
-        db_table = 'User'   # This maps to your existing PGAdmin table
+        db_table = 'User'  
 
     def __str__(self):
         return self.username
