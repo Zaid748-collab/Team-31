@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-$r2mw#h5^iu(1@zakpuxhr@5d)!ym&!9*w4ruxa##!9msm$%v2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 'cs2team31.cs2410-web01pvm.aston.ac.uk','127.0.0.1' ]
 
 
 # Application definition
@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'Checkout',
     'cloudinary',
     'cloudinary_storage',
-
+    'Profile',
 ]
 
 MIDDLEWARE = [
@@ -89,21 +89,12 @@ WSGI_APPLICATION = 'Team31Project.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': BASE_DIR / 'db.sqlite3',
- 
         'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.postgresql'),
-
         'NAME': os.environ.get('DB_NAME'),
-
         'USER': os.environ.get('DB_USER'),
-
         'PASSWORD': os.environ.get('DB_PASSWORD'),
-
         'HOST': os.environ.get('DB_HOST'),
-        
         'PORT': os.environ.get('DB_PORT'),
-
     }
 }
 
@@ -114,6 +105,8 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
 
 
 # Password validation
@@ -150,9 +143,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # Default primary key field type
