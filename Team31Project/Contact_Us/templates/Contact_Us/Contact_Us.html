@@ -1,24 +1,85 @@
-<h1>Contact our support</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact our support</title>
+    <!-- CSS principal du site (le même que Home / Products si vous en avez un) -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <!-- CSS spécifique pour la page Contact -->
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+</head>
+<body>
 
-<form method="POST" action="">
-    {% csrf_token %}
+    <!-- NAVBAR – tu peux copier la même que sur la home si elle n’est pas dans base.html -->
+    <header class="main-nav">
+        <div class="logo">
+            <a href="{% url 'home' %}">AstonTechHub</a>
+        </div>
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'products' %}">Products</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'contact' %}" class="active">Contact</a>
+            <a href="{% url 'basket' %}">Basket</a>
+        </nav>
+    </header>
 
-    <label>Name</label><br>
-    <input type="text" name="name"><br><br>
+    <!-- CONTENU CONTACT -->
+    <main class="contact-page">
+        <section class="contact-card">
+            <div class="contact-left">
+                <h1 class="contact-title">Contact our support</h1>
+                <p class="contact-subtitle">
+                    Have an issue with your order, delivery or product?  
+                    Fill in the form and our hardware experts will get back to you.
+                </p>
 
-    <label>Email</label><br>
-    <input type="email" name="email"><br><br>
+                <form method="POST" class="contact-form">
+                    {% csrf_token %}
 
-    <label>Subject</label><br>
-    <input type="text" name="subject"><br><br>
+                    <div class="form-row">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
 
-    <label>Message</label><br>
-    <textarea name="message"></textarea><br><br>
+                    <div class="form-row">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
 
-    <button type="submit">Send</button>
-</form>
+                    <div class="form-row">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
 
-{% if success %}
-<p style="color: green;">Message sent!</p>
-{% endif %}
+                    <div class="form-row">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                    </div>
 
+                    <button type="submit" class="btn-primary">Send message</button>
+
+                    {% if success %}
+                        <p class="success-msg">Message sent! Our team will contact you soon 👌</p>
+                    {% endif %}
+                </form>
+            </div>
+
+            <div class="contact-right">
+                <h2>Need quick help?</h2>
+                <ul>
+                    <li>🔧 Hardware compatibility questions</li>
+                    <li>🚚 Delivery & tracking issues</li>
+                    <li>💳 Payment or refund problems</li>
+                </ul>
+                <p class="contact-email">
+                    Or email us directly:  
+                    <span>team31astontech@gmail.com</span>
+                </p>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
