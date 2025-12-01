@@ -1,6 +1,24 @@
-{% extends 'base.html' %}
-{% block title %}Contact Us{% endblock %}
-{% block content %}
-  <h2>Contact AstonTechHub</h2>
-  <p>Say hello 👋</p>
-{% endblock %}
+<h1>Contact our support</h1>
+
+<form method="POST" action="">
+    {% csrf_token %}
+
+    <label>Name</label><br>
+    <input type="text" name="name"><br><br>
+
+    <label>Email</label><br>
+    <input type="email" name="email"><br><br>
+
+    <label>Subject</label><br>
+    <input type="text" name="subject"><br><br>
+
+    <label>Message</label><br>
+    <textarea name="message"></textarea><br><br>
+
+    <button type="submit">Send</button>
+</form>
+
+{% if success %}
+<p style="color: green;">Message sent!</p>
+{% endif %}
+
