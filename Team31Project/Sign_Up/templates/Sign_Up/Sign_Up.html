@@ -1,55 +1,17 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Sign Up{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/Sign_Up.css' %}">
+{% endblock %}
 
 {% block content %}
-<h2>Create an Account</h2>
-
-<form method="post">
+<div class="signup-container">
+  <h2>Create an Account</h2>
+  <form method="post" class="signup-form">
     {% csrf_token %}
-
-    <label>First Name:</label>
-    <input type="text" name="first_name" required>
-    <br><br>
-
-    <label>Last Name:</label>
-    <input type="text" name="last_name" required>
-    <br><br>
-
-    <label>Email:</label>
-    <input type="email" name="email" required>
-    <br><br>
-
-    <label>Username:</label>
-    <input type="text" name="username" required>
-    <br><br>
-
-    <label>Password:</label>
-    <input type="password" name="password" required>
-    <br><br>
-
-    <label>Date of Birth:</label>
-    <input type="date" name="date_of_birth">
-    <br><br>
-
-    <label>Phone Number:</label>
-    <input type="text" name="phone_number">
-    <br><br>
-
-    <label>Gender:</label>
-    <select name="gender">
-        <option value="">Select</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-    </select>
-    <br><br>
-
-    <label>Profile Picture URL:</label>
-    <input type="url" name="profile_picture_url">
-    <br><br>
-
-    <button type="submit">Sign Up</button>
-</form>
-
+    {{ form.as_p }}
+    <button type="submit" class="signup-btn">Sign Up</button>
+  </form>
+</div>
 {% endblock %}

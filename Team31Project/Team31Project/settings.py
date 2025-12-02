@@ -169,3 +169,7 @@ EMAIL_HOST_USER = "team31astontech@gmail.com"      # expéditeur
 EMAIL_HOST_PASSWORD = "ceueyvpdavbrwegg"       # mot de passe d'application
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+AUTH_USER_MODEL = 'Sign_Up.User'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/'
