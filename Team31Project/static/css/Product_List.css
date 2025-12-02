@@ -89,3 +89,40 @@
 .add-basket-btn:hover { background: #7428a8; }
 
 .no-products { text-align: center; font-size: 1.2rem; margin-top: 40px; }
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filter-container input, 
+.filter-container select {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: border-color 0.2s;
+}
+
+.filter-container input {
+  width: 100%;
+  max-width: 400px;
+}
+
+.filter-container select {
+  width: 100%;
+  max-width: 200px;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.filter-container input:focus, 
+.filter-container select:focus {
+  border-color: #5a1e80; 
+  box-shadow: 0 0 0 3px rgba(90, 30, 128, 0.1);
+}
