@@ -85,7 +85,7 @@ body {
   display: none;
   flex-direction: column;
   overflow-y: auto;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .basket-header {

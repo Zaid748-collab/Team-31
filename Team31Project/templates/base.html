@@ -12,10 +12,8 @@
 
 <body>
 
-  <!-- navbar -->
   <header>
     <nav class="navbar">
-      <!-- Left side links -->
       <ul class="nav-list">
         <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
         <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
@@ -24,7 +22,6 @@
         <li><a href="{% url 'signup' %}" class="nav-link">Sign Up</a></li>
       </ul>
 
-      <!-- Right side: icons + user info -->
       <ul class="nav-icons">
         <li>
           <a href="#" id="basket-icon" class="nav-link">
@@ -62,7 +59,6 @@
     {% endblock %}
   </main>
 
-  <!-- Basket Popup -->
   <div id="basket-popup" class="basket-popup">
     <div class="basket-header">
       <h3>Your Basket</h3>
@@ -90,7 +86,6 @@
     </div>
   </div>
 
-  <!-- Login Popup -->
   <div id="login-popup" class="login-popup">
     <div class="login-header">
       <h3>Login</h3>
@@ -108,10 +103,8 @@
     </form>
   </div>
 
-  <!-- Popup toggle script -->
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      // Basket popup
       const basketIcon = document.getElementById("basket-icon");
       const basketPopup = document.getElementById("basket-popup");
       const closeBasket = document.getElementById("close-basket");
@@ -125,7 +118,6 @@
         basketPopup.style.display = "none";
       });
 
-      // Login popup
       const loginLink = document.getElementById("login-link");
       const loginPopup = document.getElementById("login-popup");
       const closeLogin = document.getElementById("close-login");
