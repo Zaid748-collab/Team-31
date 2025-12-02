@@ -1,12 +1,9 @@
 from django import forms
-from .models import Profile
+from django.contrib.auth import get_user_model
 
-class ProfileForm(forms.ModelForm):
+User = get_user_model()
+
+class UserForm(forms.ModelForm):
     class Meta:
-        model = Profile
-        fields = [
-            "date_of_birth",
-            "phone_number",
-            "gender",
-            "profile_picture_url",
-        ]
+        model = User
+        fields = ["username", "email", "phone_number", "gender", "profile_picture_url"]

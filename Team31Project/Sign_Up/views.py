@@ -1,16 +1,13 @@
+# Sign_Up/views.py
 from django.shortcuts import render, redirect
-from .forms import SignupForm
-from django.contrib.auth.hashers import make_password
+from .forms import SignUpForm
 
 def signup_view(request):
     if request.method == "POST":
-        form = SignupForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.password = make_password(form.cleaned_data["password"])
-            user.save()
-            return redirect("/")  # go to home or whatever you choose
+            form.save()
+            return redirect("login")
     else:
-        form = SignupForm()
-
+        form = SignUpForm()
     return render(request, "Sign_Up/Sign_Up.html", {"form": form})

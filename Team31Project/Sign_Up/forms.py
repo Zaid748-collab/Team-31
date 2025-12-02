@@ -1,8 +1,12 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from .models import User
 
-class SignupForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
+class SignUpForm(UserCreationForm):
+    date_of_birth = forms.DateField(
+        widget=forms.SelectDateWidget(years=range(1900, 2026)),
+        required=False
+    )
 
     class Meta:
         model = User
@@ -11,9 +15,11 @@ class SignupForm(forms.ModelForm):
             "last_name",
             "email",
             "username",
-            "password",
+            "password1",
+            "password2",
             "date_of_birth",
             "phone_number",
             "gender",
             "profile_picture_url",
         ]
+    
