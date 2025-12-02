@@ -6,6 +6,7 @@ body {
   color: #333;
 }
 
+/* Navbar */
 .navbar {
   background-color: #222;
   padding: 0.75rem 2rem;
@@ -67,11 +68,13 @@ body {
   background: #a000a0;
 }
 
+/* Main content */
 .main-content {
   padding: 2rem;
   min-height: 100vh;
 }
 
+/* Basket popup */
 .basket-popup {
   position: fixed;
   bottom: 20px;
@@ -103,12 +106,13 @@ body {
   padding: 1rem;
 }
 
-.close-btn {
+/* Basket close button */
+.basket-header .close-btn {
   background: none;
   border: none;
-  color: white;
   font-size: 1.4rem;
   cursor: pointer;
+  color: white;
 }
 
 .basket-item {
@@ -125,13 +129,28 @@ body {
   object-fit: cover;
 }
 
+.basket-empty {
+  text-align: center;       
+  padding: 1rem;
+}
+
+.basket-empty-img {
+  max-width: 100%;           
+  max-height: 200px;         
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto 1rem auto;  
+}
+
 .basket-item-name {
   flex: 1;
 }
 
+/* Login popup */
 .login-popup {
-  display: none;              
-  position: fixed;            
+  display: none;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -140,7 +159,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 6px 16px rgba(0,0,0,0.35);
-  z-index: 2000;         
+  z-index: 2000;
   flex-direction: column;
   width: 340px;
   max-width: 95%;
@@ -153,6 +172,16 @@ body {
   margin-bottom: 1rem;
   border-bottom: 1px solid #eee;
   padding-bottom: 0.5rem;
+}
+
+.login-header .close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+  margin-left: auto;
 }
 
 .login-form label {
@@ -190,4 +219,25 @@ body {
 
 .login-btn:hover {
   background: #a000a0;
+}
+
+.login-notification {
+  display: none;
+  position: fixed;
+  top: 70px;              
+  right: 20px;            
+  background: #ffe6e6;
+  color: #a00000;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 2000;
+}
+
+.error-msg {
+  margin-top: 1rem;
+  color: #a00000;
+  font-weight: bold;
+  text-align: center;
 }
