@@ -1,33 +1,50 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Profile{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
 {% block content %}
-<h2>Profile</h2>
+<div class="profile-container">
+  <div class="profile-header">
+    <h2>Profile</h2>
+    <a href="{% url 'profile_edit' %}" class="edit-btn">Edit Profile</a>
+  </div>
 
-{% if request.user.is_authenticated %}
-    <a href="{% url 'profile_edit' %}" class="btn btn-primary">Edit Profile</a>
-    <div style="display:flex; gap:2rem; align-items:flex-start;">
-
-        <!-- Profile picture -->
-        <div>
-            <img src="{{ request.user.profile_picture_url }}"
-                 alt="Profile picture"
-                 style="width:150px;height:150px;object-fit:cover;border-radius:50%;border:1px solid #ccc;">
+  <div style="display:flex; gap:2rem; align-items:flex-start;">
+    <!-- Profile picture -->
+    <div>
+      {% if user.profile_picture_url %}
+        <img src="{{ user.profile_picture_url }}"
+             alt="Profile picture"
+             class="profile-picture">
+      {% else %}
+        <div class="profile-picture"
+             style="display:flex;align-items:center;justify-content:center;background:#eee;color:#666;">
+          No Image
         </div>
-
-        <!-- Info -->
-        <div>
-            <p><strong>Username:</strong> {{ request.user.username }}</p>
-            <p><strong>Email:</strong> {{ request.user.email }}</p>
-            <p><strong>First name:</strong> {{ request.user.first_name }}</p>
-            <p><strong>Last name:</strong> {{ request.user.last_name }}</p>
-            <p><strong>Date of birth:</strong> {{ request.user.date_of_birth }}</p>
-            <p><strong>Phone number:</strong> {{ request.user.phone_number }}</p>
-            <p><strong>Gender:</strong> {{ request.user.gender }}</p>
-        </div>
+      {% endif %}
     </div>
-{% else %}
-    <p>You are not logged in.</p>
-{% endif %}
+
+    <!-- Profile info -->
+    <div class="profile-info">
+      <div><label>Username:</label> <span>{{ user.username }}</span></div>
+      <div><label>Email:</label> <span>{{ user.email }}</span></div>
+      <div><label>First Name:</label> <span>{{ user.first_name }}</span></div>
+      <div><label>Last Name:</label> <span>{{ user.last_name }}</span></div>
+      {% if user.date_of_birth %}
+        <div><label>Date of Birth:</label> <span>{{ user.date_of_birth }}</span></div>
+      {% endif %}
+      {% if user.phone_number %}
+        <div><label>Phone:</label> <span>{{ user.phone_number }}</span></div>
+      {% endif %}
+      {% if user.gender %}
+        <div><label>Gender:</label> <span>{{ user.gender }}</span></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -7,9 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
-  
-
-
   {% block extra_css %}{% endblock %}
 </head>
 
@@ -18,18 +15,16 @@
   <!-- navbar -->
   <header>
     <nav class="navbar">
+      <!-- Left side links -->
       <ul class="nav-list">
         <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
         <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
         <li><a href="{% url 'contact' %}" class="nav-link">Contact Us</a></li>
         <li><a href="{% url 'products' %}" class="nav-link">Products</a></li>
         <li><a href="{% url 'signup' %}" class="nav-link">Sign Up</a></li>
-        <li><a href="{% url 'orders' %}" class="nav-link">Orders</a></li>
-        <li><a href="{% url 'checkout' %}" class="nav-link">Checkout</a></li>
-        <li><a href="/admin/" class="nav-link">Admin</a></li>
       </ul>
 
-      <!-- Icons -->
+      <!-- Right side: icons + user info -->
       <ul class="nav-icons">
         <li>
           <a href="#" id="basket-icon" class="nav-link">
@@ -43,6 +38,21 @@
                  alt="Profile" class="nav-icon">
           </a>
         </li>
+
+        {% if user.is_authenticated %}
+          <li class="nav-link user-info">Logged in as <strong>{{ user.username }}</strong></li>
+          <li>
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="nav-link logout-link">Logout</button>
+            </form>
+          </li>
+          {% if user.is_superuser %}
+            <li><a href="/admin/" class="nav-link">Admin</a></li>
+          {% endif %}
+        {% else %}
+          <li><a href="#" id="login-link" class="nav-link login">Login</a></li>
+        {% endif %}
       </ul>
     </nav>
   </header>
@@ -53,13 +63,12 @@
   </main>
 
   <!-- Basket Popup -->
-<div id="basket-popup" class="basket-popup">
-  <div class="basket-header">
-    <h3>Your Basket</h3>
-    <button id="close-basket" class="close-btn">&times;</button>
-  </div>
-  <div id="basket-items" class="basket-items">
-    {% if db_mode %}
+  <div id="basket-popup" class="basket-popup">
+    <div class="basket-header">
+      <h3>Your Basket</h3>
+      <button id="close-basket" class="close-btn">&times;</button>
+    </div>
+    <div id="basket-items" class="basket-items">
       {% if items %}
         <ul>
           {% for item in items %}
@@ -71,54 +80,65 @@
             </li>
           {% endfor %}
         </ul>
-        <div class="basket-total">
-          Total: £{{ total }}
-        </div>
+        <div class="basket-total">Total: £{{ total }}</div>
       {% else %}
         <div class="basket-empty">
           <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764096011/empty-cart_vdvkkl.png" alt="Empty Basket" class="basket-empty-img">
           <p>Your basket is empty</p>
         </div>
       {% endif %}
-    {% else %}
-      {% if items %}
-        <ul>
-          {% for item in items %}
-            <li class="basket-item">
-              <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="basket-item-img">
-              <span class="basket-item-name">{{ item.product.name }}</span>
-              <span class="basket-item-price">£{{ item.product.price }}</span>
-              <span class="basket-item-qty">x{{ item.quantity }}</span>
-            </li>
-          {% endfor %}
-        </ul>
-        <div class="basket-total">
-          Total: £{{ total }}
-        </div>
-      {% else %}
-        <div class="basket-empty">
-          <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764096011/empty-cart_vdvkkl.png" alt="Empty Basket" class="basket-empty-img">
-          <p>Your basket is empty</p>
-        </div>
-      {% endif %}
-    {% endif %}
+    </div>
   </div>
-</div>
+
+  <!-- Login Popup -->
+  <div id="login-popup" class="login-popup">
+    <div class="login-header">
+      <h3>Login</h3>
+      <button id="close-login" class="close-btn">&times;</button>
+    </div>
+    <form method="post" action="{% url 'login' %}" class="login-form">
+      {% csrf_token %}
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+  </div>
 
   <!-- Popup toggle script -->
   <script>
     document.addEventListener("DOMContentLoaded", function() {
+      // Basket popup
       const basketIcon = document.getElementById("basket-icon");
       const basketPopup = document.getElementById("basket-popup");
-      const closeBtn = document.getElementById("close-basket");
+      const closeBasket = document.getElementById("close-basket");
 
       basketIcon.addEventListener("click", function(e) {
         e.preventDefault();
-        basketPopup.style.display = "flex"; 
+        basketPopup.style.display = "flex";
       });
 
-      closeBtn.addEventListener("click", function() {
+      closeBasket.addEventListener("click", function() {
         basketPopup.style.display = "none";
+      });
+
+      // Login popup
+      const loginLink = document.getElementById("login-link");
+      const loginPopup = document.getElementById("login-popup");
+      const closeLogin = document.getElementById("close-login");
+
+      if (loginLink) {
+        loginLink.addEventListener("click", function(e) {
+          e.preventDefault();
+          loginPopup.style.display = "flex";
+        });
+      }
+
+      closeLogin.addEventListener("click", function() {
+        loginPopup.style.display = "none";
       });
     });
   </script>
