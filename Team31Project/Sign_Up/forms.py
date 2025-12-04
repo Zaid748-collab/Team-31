@@ -20,6 +20,6 @@ class SignUpForm(UserCreationForm):
             "date_of_birth",
             "phone_number",
             "gender",
-            "profile_picture_url",
+            "profile_picture",
         ]
     

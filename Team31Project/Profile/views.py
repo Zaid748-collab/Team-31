@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+
 from .forms import UserForm
 
+
+@login_required
 def profile_view(request):
     if not request.user.is_authenticated:
         return render(request, "base.html", {"not_logged_in": True})
@@ -10,12 +15,14 @@ def profile_view(request):
         return render(request, "Profile/profile.html", {"user": request.user})
 
 
+@login_required
 def edit_profile(request):
     user = request.user
     old_email = user.email
 
     if request.method == "POST":
-        form = UserForm(request.POST, instance=user)
+        # IMPORTANT: include request.FILES so uploaded images are handled
+        form = UserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             updated_user = form.save(commit=False)
 
@@ -31,9 +38,6 @@ def edit_profile(request):
 
     return render(request, "Profile/profile_edit.html", {"form": form})
 
-
-from django.http import JsonResponse
-from django.contrib.auth import authenticate, login
 
 def custom_login(request):
     if request.method == "POST":
