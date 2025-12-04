@@ -17,15 +17,13 @@
   <div style="display:flex; gap:2rem; align-items:flex-start;">
     <!-- Profile picture -->
     <div>
-      {% if user.profile_picture_url %}
-        <img src="{{ user.profile_picture_url }}"
-             alt="Profile picture"
-             class="profile-picture">
+      {% if user.profile_picture %}
+      <img src="{{ user.profile_picture.url }}" alt="Profile picture" class="profile-picture">
       {% else %}
-        <div class="profile-picture"
-             style="display:flex;align-items:center;justify-content:center;background:#eee;color:#666;">
-          No Image
-        </div>
+      <div class="profile-picture"
+        style="display:flex;align-items:center;justify-content:center;background:#eee;color:#666;">
+        No Image
+      </div>
       {% endif %}
     </div>
 
