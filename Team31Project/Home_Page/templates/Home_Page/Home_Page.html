@@ -6,61 +6,92 @@
 {% endblock %}
 
 {% block content %}
-<!-- ===== HERO SECTION ===== -->
-<section class="hero">
-  <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269912/banner-tech_ebroijp.jpg" alt="Tech Banner" class="hero-img">
-  <div class="hero-text">
-    <h1>Welcome to AstonTechHub</h1>
-    <p>Your one-stop shop for computer components and accessories.</p>
+
+<h1 class="home-title">AstonTechHub</h1>
+
+<!-- ===== IMAGE CAROUSEL ===== -->
+<div class="carousel-container">
+  <div class="carousel-track">
+    <div class="carousel-slide">
+      <img src="https://images.pexels.com/photos/7974/pexels-photo.jpg" alt="Laptop workspace">
+    </div>
+    <div class="carousel-slide">
+      <img src="https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg" alt="Motherboard close-up">
+    </div>
+    <div class="carousel-slide">
+      <img src="https://images.pexels.com/photos/18105/pexels-photo.jpg" alt="Tech background">
+    </div>
+  </div>
+
+  <button class="carousel-btn left" onclick="moveCarousel(-1)">&#8249;</button>
+  <button class="carousel-btn right" onclick="moveCarousel(1)">&#8250;</button>
+</div>
+
+<!-- ========== SHOP BY CATEGORY ========== -->
+<section class="homepage-section">
+  <h2 class="section-title">Shop by Category</h2>
+
+  <div class="home-grid home-grid-3">
+    {% for cat in categories|slice:":3" %}
+      <div class="home-card category-large">
+        <a href="{% url 'products' %}?type={{ cat.type }}">
+          <div class="home-card-image-large">
+            <img src="{{ cat.image_url }}" alt="{{ cat.type }}">
+          </div>
+          <h3 class="home-card-title">{{ cat.type }}</h3>
+        </a>
+      </div>
+    {% endfor %}
   </div>
 </section>
 
-<!-- ===== SHOP BY CATEGORY ===== -->
-<section class="categories">
-  <h2>Shop by Category</h2>
-  <div class="category-grid">
-    <div class="category-card">
-      <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269925/laptop-category_fzur8j.jpg" alt="Laptops">
-      <h3>Laptops</h3>
-    </div>
+<!-- ========== FEATURED PRODUCTS ========== -->
+<section class="homepage-section">
+  <h2 class="section-title">Featured Products</h2>
 
-    <div class="category-card">
-      <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269920/gpu-category_gggufd.jpg" alt="GPUs">
-      <h3>Graphics Cards</h3>
-    </div>
-
-    <div class="category-card">
-      <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269907/accessories_zw8sss.jpg" alt="Accessories">
-      <h3>Accessories</h3>
-    </div>
+  <div class="home-grid">
+    {% for product in featured_products %}
+      <div class="home-card product-card">
+        <a href="{% url 'products' %}?id={{ product.id }}">
+          <div class="home-card-image">
+            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+          </div>
+          <h3 class="home-card-title">{{ product.name }}</h3>
+          <p class="home-card-price">£{{ product.price }}</p>
+        </a>
+      </div>
+    {% endfor %}
   </div>
 </section>
 
-<!-- ===== FEATURED PRODUCTS ===== -->
-<section class="featured">
-  <h2>Featured Products</h2>
-  <div class="product-grid">
-    <div class="product-card">
-      <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269916/featured-product_wvnas5.jpg" alt="Gaming PC">
-      <p>High-Performance Gaming PC</p>
-      <span>£1499.99</span>
-      <button class="cta-btn">Shop Now</button>
-    </div>
+<script>
+let currentIndex = 0;
 
-    <div class="product-card">
-      <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764269920/gpu-category_gggufd.jpg" alt="GPU">
-      <p>RTX 4070 GPU</p>
-      <span>£599.99</span>
-      <button class="cta-btn">View Details</button>
-    </div>
-  </div>
-</section>
+function updateCarouselPosition() {
+  const container = document.querySelector('.carousel-container');
+  const track = document.querySelector('.carousel-track');
+  const slides = document.querySelectorAll('.carousel-slide');
+
+  if (!container || !track || slides.length === 0) return;
+
+  const slideWidth = container.offsetWidth;
+  track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+}
+
+function moveCarousel(direction) {
+  const slides = document.querySelectorAll('.carousel-slide');
+  const total = slides.length;
+  currentIndex = (currentIndex + direction + total) % total;
+  updateCarouselPosition();
+}
+
+window.addEventListener('load', updateCarouselPosition);
+window.addEventListener('resize', updateCarouselPosition);
+setInterval(() => moveCarousel(1), 5000);
+</script>
+
 {% endblock content %}
 
 <footer>
   <p>© 2025 AstonTechHub. All Rights Reserved.</p>
-  <p>
-    <a href="#">Privacy Policy</a> |
-    <a href="#">Terms of Service</a>
-  </p>
 </footer>
