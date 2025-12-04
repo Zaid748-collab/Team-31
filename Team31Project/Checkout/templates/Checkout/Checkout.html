@@ -1,6 +1,21 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block title %}Checkout{% endblock %}
+
 {% block content %}
-  <h2>Checkout</h2>
-  <p>Checkout placeholder. Payment flow goes here.</p>
+<div class="checkout-page container">
+  <h2>Review Your Order</h2>
+  <ul>
+    {% for item in items %}
+      <li>
+        {{ item.product.name }} x{{ item.quantity }} - £{{ item.product.price }}
+      </li>
+    {% endfor %}
+  </ul>
+  <p>Total: £{{ total }}</p>
+
+  <form method="POST" action="{% url 'confirm_checkout' %}">
+    {% csrf_token %}
+    <button type="submit" class="checkout-btn">Confirm Checkout</button>
+  </form>
+</div>
 {% endblock %}

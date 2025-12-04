@@ -117,17 +117,19 @@ body {
 
 .basket-item {
   display: flex;
-  align-items: center;
-  margin-bottom: 0.75rem;
+  flex-direction: column; 
+  align-items: flex-start; 
+  margin-bottom: 1rem;
 }
 
 .basket-item-img {
-  width: 45px;
-  height: 45px;
-  margin-right: 0.75rem;
-  border-radius: 4px;
-  object-fit: cover;
+  width: 100px;            
+  height: 100px;
+  margin-bottom: 0.5rem;    
+  border-radius: 6px;
+  object-fit: contain;   
 }
+
 
 .basket-empty {
   text-align: center;       
@@ -144,8 +146,20 @@ body {
 }
 
 .basket-item-name {
-  flex: 1;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
 }
+
+.basket-item-price {
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.basket-item-qty {
+  color: #555;
+  font-size: 0.9rem;
+}
+
 
 /* Login popup */
 .login-popup {
