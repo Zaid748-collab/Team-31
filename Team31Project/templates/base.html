@@ -56,17 +56,52 @@
 
   <header>
 
-<div id="popup">
+<div id="popup" 
+     style="
+        position: fixed;
+        top: 25px;
+        right: 25px;
+        width: 320px;
+        background: #ffffff;
+        padding: 20px 24px;
+        border-radius: 16px;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.18);
+        border: 1px solid #e6e6e6;
+        z-index: 9999;
+        font-family: 'Segoe UI', sans-serif;
+     ">
 
-    
-    <button id="closePopup">×</button>
+<button id="closePopup"
+        style="
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: #eeeeee;
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            color: #333;
+            transition: background 0.2s;
+        "
+        onmouseover="this.style.background='#d6d6d6'"
+        onmouseout="this.style.background='#eeeeee'">
+    ×
+</button>
 
-    <p>
-        <strong>Welcome!</strong> We're glad you're here.
-        If you need any help, feel free to reach out through the Contact page.
-    </p>
+<p style="
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.4;
+    color: #222;
+">
+    <strong>Welcome!</strong> We're glad you're here.  
+    If you need any help, feel free to reach out through the Contact page.
+</p>
 
-</div>
+
 
 </header>
 
