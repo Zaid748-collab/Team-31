@@ -1,26 +1,52 @@
-.product-page { padding: 20px; }
-.page-title { font-size: 2rem; margin-bottom: 20px; text-align: center; }
+/* === PAGE BACKGROUND === */
+body {
+  background: linear-gradient(180deg, #41006b, #9a57b4);
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
 
+/* === PAGE TITLE === */
+.product-page {
+  padding: 20px;
+}
+
+.page-title {
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 700;
+  color: #ff9600;
+}
+
+/* === PRODUCT GRID === */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
+  gap: 25px;
 }
 
+/* === PRODUCT CARD === */
 .product-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+  background: #fff;                       
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.4); 
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
   height: 460px;
   overflow: hidden;
+  color: #000;                            
 }
 
-.product-card:hover { transform: translateY(-4px); box-shadow: 0 6px 18px rgba(0,0,0,0.15); }
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+}
 
+/* === PRODUCT IMAGE === */
 .product-image {
   height: 180px;
   width: 100%;
@@ -28,38 +54,45 @@
   justify-content: center;
   align-items: center;
   background: #f9f9f9;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  border-radius: 10px;
 }
+
 .product-image img {
   max-height: 100%;
   max-width: 100%;
-  object-fit: scale-down;
+  object-fit: contain;
 }
 
 .placeholder-image {
-  width: 100%; height: 100%; background: #ddd; border-radius: 8px;
-  display: flex; justify-content: center; align-items: center; color: #555;
+  width: 100%;
+  height: 100%;
+  background: #ddd;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #555;
 }
 
+/* === PRODUCT NAME === */
 .product-name {
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: 1.2rem;
+  font-weight: 700;
   text-align: center;
-  margin: 0 0 8px 0;
-  line-height: 1.2rem;
-
-  line-clamp: 2;
+  margin: 0 0 10px 0;
+  line-height: 1.3rem;
 
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2; 
   -webkit-box-orient: vertical;
-
   overflow: hidden;
   text-overflow: ellipsis;
 
-  min-height: calc(1.2rem * 2);
+  min-height: calc(1.3rem * 2);
 }
 
+/* === PRODUCT INFO === */
 .product-info {
   min-height: 120px;
   display: flex;
@@ -70,36 +103,50 @@
 
 .product-meta {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #555;
 }
 
-.product-action { margin-top: auto; }
-
+/* === PRODUCT ACTION === */
 .product-action {
   margin-top: auto;
-  text-align: center; 
-}
-
-.add-basket-btn {
-  background: #5a1e80;       
-  color: #fff;              
-  border: none;
-  padding: 10px 18px;       
-  border-radius: 6px;       
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  display: inline-block;     
   text-align: center;
 }
 
-.add-basket-btn:hover {
-  background: #7428a8;      
+/* === ADD TO BASKET BUTTON === */
+.add-basket-btn {
+  background: #ff6600;     
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  display: inline-block;
+  text-align: center;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.no-products { text-align: center; font-size: 1.2rem; margin-top: 40px; }
+.add-basket-btn:hover {
+  background: #e05500;
+  transform: translateY(-2px);
+}
 
+.add-basket-btn:active {
+  background: #c94a00;
+  transform: translateY(0);
+}
+
+/* === NO PRODUCTS MESSAGE === */
+.no-products {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 40px;
+  color: #fff;
+}
+
+/* === FILTERS === */
 .filter-container {
   display: flex;
   justify-content: center;
@@ -108,7 +155,7 @@
   flex-wrap: wrap;
 }
 
-.filter-container input, 
+.filter-container input,
 .filter-container select {
   padding: 10px 15px;
   border: 1px solid #ddd;
@@ -131,8 +178,8 @@
   background-color: #fff;
 }
 
-.filter-container input:focus, 
+.filter-container input:focus,
 .filter-container select:focus {
-  border-color: #5a1e80; 
-  box-shadow: 0 0 0 3px rgba(90, 30, 128, 0.1);
+  border-color: #ff9600; /* orange accent */
+  box-shadow: 0 0 0 3px rgba(255, 150, 0, 0.2);
 }

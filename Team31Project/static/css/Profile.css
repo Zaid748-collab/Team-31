@@ -1,12 +1,24 @@
-.profile-container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+/* === PAGE BACKGROUND === */
+body {
+  background: linear-gradient(180deg, #41006b, #9a57b4);
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #fff;
 }
 
+/* === PROFILE CONTAINER === */
+.profile-container {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff;                         
+  border-radius: 14px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+  color: #000;                               
+}
+
+/* === HEADER === */
 .profile-header {
   display: flex;
   justify-content: space-between;
@@ -16,17 +28,22 @@
 
 .profile-header h2 {
   margin: 0;
-  color: #600064;
+  color: #41006b;                           
+  font-size: 2rem;
+  font-weight: 700;
 }
 
+/* === PROFILE PICTURE === */
 .profile-picture {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 2px solid #ccc;
+  border: 3px solid #ff9600;                 
   object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
+/* === PROFILE INFO === */
 .profile-info {
   display: flex;
   flex-direction: column;
@@ -35,23 +52,33 @@
 }
 
 .profile-info label {
-  font-weight: bold;
-  color: #333;
+  font-weight: 700;
+  color: #41006b;                           
 }
 
 .profile-info span {
-  color: #555;
+  color: #333;
 }
 
+/* === EDIT BUTTON === */
 .edit-btn {
-  background: #600064;
+  background: #ff6600;                       
   color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
   text-decoration: none;
-  transition: background 0.3s ease;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+  display: inline-block;
 }
 
 .edit-btn:hover {
-  background: #a000a0;
+  background: #e05500;
+  transform: translateY(-2px);
+}
+
+.edit-btn:active {
+  background: #c94a00;
+  transform: translateY(0);
 }
