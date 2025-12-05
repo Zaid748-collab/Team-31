@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
 from .models import Product
 
 def index(request):
@@ -12,7 +12,7 @@ def product_detail(request, pk):
 
 def add_to_basket(request, pk):
     if request.method != "POST":
-        return redirect("product_detail", pk=pk)
+        return JsonResponse({"error": "Invalid request"}, status=400)
 
     product = get_object_or_404(Product, pk=pk)
 
@@ -22,5 +22,21 @@ def add_to_basket(request, pk):
     request.session["cart"] = cart
     request.session.modified = True
 
-    messages.success(request, f"Added {product.name} to basket.")
-    return redirect("product_detail", pk=pk)
+    basket_items = []
+    total = 0
+    for pid, qty in cart.items():
+        p = Product.objects.get(pk=pid)
+        basket_items.append({
+            "id": p.id,
+            "name": p.name,
+            "price": str(p.price),
+            "image_url": p.image_url,
+            "quantity": qty,
+        })
+        total += p.price * qty
+
+    return JsonResponse({
+        "items": basket_items,
+        "total": str(total),
+        "message": f"Added {product.name} to basket."
+    })

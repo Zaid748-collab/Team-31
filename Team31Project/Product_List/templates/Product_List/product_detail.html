@@ -27,9 +27,9 @@
       <p class="stock">In stock: {{ product.quantity_in_stock }}</p>
       <p class="type">Category: {{ product.type }}</p>
 
-      <form method="POST" action="{% url 'add_to_basket' product.id %}" class="product-action">
+      <form action="{% url 'add_to_basket' product.id %}" class="product-action">
         {% csrf_token %}
-        <button type="submit" class="add-basket-btn add-to-basket" data-product-id="{{ product.id }}">
+        <button type="button" class="add-basket-btn add-to-basket" data-product-id="{{ product.id }}">
           Add to basket
         </button>
       </form>
@@ -37,31 +37,4 @@
   </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.add-to-basket').forEach(button => {
-    button.addEventListener('click', function(event) {
-      event.preventDefault();
-
-      const form = this.closest('form');
-      const url = form.action;
-      const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
-
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': csrfToken,
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: new FormData(form)
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Basket updated:', data);
-      })
-      .catch(error => console.error('Error:', error));
-    });
-  });
-});
-</script>
 {% endblock %}
