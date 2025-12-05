@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}{{ brand_name }}{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  {% load static %}
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header>
+    <div class="container nav">
+      <!-- Brand -->
+      <a href="{% url 'home' %}" class="brand">
+        <img src="{% static 'images/logo.png' %}" alt="AstonTechHub Logo" class="logo">
+        <span class="brand-text">AstonTechHub</span>
+      </a>
+
+      <!-- Hamburger Button (Mobile) -->
+      <button class="menu-toggle" id="menu-toggle">☰</button>
+
+      <!-- Navigation Links -->
+      <nav id="navbar-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="/products/">Products</a>
+        <a href="/About_Us/">About</a>
+        <a href="{% url 'contact' %}">Contact</a>
+        <a href="/User_Basket/">Basket</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">© {{ brand_name }} {{ now|date:"Y" }}</div>
+  </footer>
+
+  <!-- Navbar Toggle Script -->
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('navbar-links');
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="product-detail container">
+  <a href="{% url 'products' %}" class="back-link">← Back to Products</a>
+
+  <div class="product-detail-content">
+    <div class="product-detail-image">
+      {% if product.image_url %}
+        <img src="{{ product.image_url }}" alt="{{ product.name }}">
+      {% else %}
+        <div class="placeholder-image">No Image Available</div>
+      {% endif %}
+    </div>
+
+    <div class="product-detail-info">
+      <h2>{{ product.name }}</h2>
+      <p class="description">{{ product.description }}</p>
+      <p class="price">£{{ product.price }}</p>
+      <p class="stock">In stock: {{ product.quantity_in_stock }}</p>
+      <p class="type">Category: {{ product.type }}</p>
+
+      <form method="POST" action="{% url 'add_to_basket' product.id %}" class="product-action">
+        {% csrf_token %}
+        <button type="submit" class="add-basket-btn add-to-basket" data-product-id="{{ product.id }}">
+          Add to basket
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.add-to-basket').forEach(button => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      const form = this.closest('form');
+      const url = form.action;
+      const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrfToken,
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: new FormData(form)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Basket updated:', data);
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  });
+});
+</script>
+{% endblock %}

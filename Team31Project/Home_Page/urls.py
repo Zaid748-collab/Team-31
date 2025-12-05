@@ -1,6 +1,7 @@
+# Team31Project/Home_Page/urls.py
 from django.urls import path
-from . import views
+from .views import home
 
 urlpatterns = [
-    path('', views.index, name='home'),
+    path("", home, name="home"),
 ]
