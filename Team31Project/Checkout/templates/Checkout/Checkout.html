@@ -1,21 +1,60 @@
 {% extends "base.html" %}
-{% block title %}Checkout{% endblock %}
+{% load static %}
 
 {% block content %}
-<div class="checkout-page container">
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+
+<div class="checkout-container">
   <h2>Review Your Order</h2>
-  <ul>
+
+  <ul class="checkout-items">
     {% for item in items %}
       <li>
-        {{ item.product.name }} x{{ item.quantity }} - £{{ item.product.price }}
+        <div class="checkout-item-info">
+          <img src="{{ item.image_url }}" alt="{{ item.name }}">
+          <div class="checkout-item-details">
+            <span>{{ item.name }}</span>
+            <span>Quantity: {{ item.quantity }}</span>
+          </div>
+        </div>
+        <span class="checkout-price">£{{ item.price }}</span>
       </li>
+    {% empty %}
+      <li>No items in your basket.</li>
     {% endfor %}
   </ul>
-  <p>Total: £{{ total }}</p>
 
-  <form method="POST" action="{% url 'confirm_checkout' %}">
+  <p class="total">Total: £{{ total }}</p>
+
+  <form id="checkout-form" method="POST" action="{% url 'confirm_checkout' %}">
     {% csrf_token %}
     <button type="submit" class="checkout-btn">Confirm Checkout</button>
   </form>
 </div>
+
+<script>
+document.getElementById("checkout-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+  fetch("{% url 'confirm_checkout' %}", {
+    method: "POST",
+    headers: {
+      "X-CSRFToken": "{{ csrf_token }}",
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      alert(data.message);
+      location.reload();
+    } else {
+      alert("Error: " + data.message);
+    }
+  })
+  .catch(err => {
+    alert("Something went wrong.");
+    console.error(err);
+  });
+});
+</script>
 {% endblock %}

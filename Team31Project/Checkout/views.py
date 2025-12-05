@@ -1,31 +1,73 @@
-from django.shortcuts import render, redirect
-from django.views.decorators.http import require_POST
-from User_Basket.models import Cart, CartItem
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from Checkout.models import Order, OrderItem
 from Product_List.models import Product
-from Previous_Orders.models import Order, OrderItem
+from User_Basket.models import Cart, CartItem
 
+
+@login_required
 def checkout_view(request):
     if request.user.is_authenticated:
         cart = Cart.objects.filter(user=request.user).first()
         items = CartItem.objects.filter(cart=cart) if cart else []
-        total = sum(i.product.price * i.quantity for i in items)
+        display_items = [
+            {
+                "id": i.product.id,
+                "name": i.product.name,
+                "price": i.product.price,
+                "image_url": i.product.image_url,
+                "quantity": i.quantity,
+            }
+            for i in items
+        ]
+        total = sum(i["price"] * i["quantity"] for i in display_items)
     else:
         basket = request.session.get('basket', {})
         items = [{'product': Product.objects.get(id=pid), 'quantity': qty} for pid, qty in basket.items()]
-        total = sum(i['product'].price * i['quantity'] for i in items)
+        display_items = [
+            {
+                "id": i['product'].id,
+                "name": i['product'].name,
+                "price": i['product'].price,
+                "image_url": i['product'].image_url,
+                "quantity": i['quantity'],
+            }
+            for i in items
+        ]
+        total = sum(i["price"] * i["quantity"] for i in display_items)
 
-    return render(request, "checkout.html", {"items": items, "total": total})
+    return render(request, 'Checkout/checkout.html', {
+        'items': display_items,
+        'total': total
+    })
 
-@require_POST
+
+@login_required
 def confirm_checkout(request):
-    if request.user.is_authenticated:
-        cart = Cart.objects.filter(user=request.user).first()
-        if cart:
-            order = Order.objects.create(user=request.user, total=sum(i.product.price * i.quantity for i in cart.items.all()))
-            for item in cart.items.all():
-                OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity)
-            cart.items.all().delete()  # clear basket
-    else:
-        # handle guest checkout if needed
-        pass
-    return redirect("orders")  # show previous orders page
+    cart = Cart.objects.filter(user=request.user).first()
+    items = CartItem.objects.filter(cart=cart) if cart else []
+
+    if not items:
+        return JsonResponse({"success": False, "message": "Basket is empty."})
+
+    total = sum(i.product.price * i.quantity for i in items)
+
+    order = Order.objects.create(
+        user=request.user,
+        total_price=total,
+        status="Pending"
+    )
+
+    for item in items:
+        OrderItem.objects.create(
+            order=order,
+            product=item.product,
+            quantity=item.quantity,
+            price=item.product.price
+        )
+
+    # Clear cart
+    items.delete()
+
+    return JsonResponse({"success": True, "message": "Your order has been processed!"})
