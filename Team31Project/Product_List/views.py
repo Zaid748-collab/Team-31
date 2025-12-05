@@ -3,14 +3,29 @@ from django.http import JsonResponse
 from .models import Product
 
 def index(request):
+   
     products = Product.objects.filter(active=True)
-    return render(request, "Product_List/Product_List.html", {"products": products})
+
+    category_type = request.GET.get("type")
+    if category_type:
+        products = products.filter(type__iexact=category_type)
+
+    return render(request, "Product_List/Product_List.html", {
+        "products": products,
+        "selected_type": category_type,
+    })
+
 
 def product_detail(request, pk):
+   
     product = get_object_or_404(Product, pk=pk)
-    return render(request, "Product_List/product_detail.html", {"product": product})
+    return render(request, "Product_List/product_detail.html", {
+        "product": product,
+    })
+
 
 def add_to_basket(request, pk):
+   
     if request.method != "POST":
         return JsonResponse({"error": "Invalid request"}, status=400)
 

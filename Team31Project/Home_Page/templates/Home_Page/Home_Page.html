@@ -56,7 +56,7 @@
   <div class="home-grid">
     {% for product in featured_products %}
       <div class="home-card product-card">
-        <a href="{% url 'products' %}?id={{ product.id }}">
+        <a href="{% url 'product_detail' product.id %}">
           <div class="home-card-image">
             <img src="{{ product.image_url }}" alt="{{ product.name }}">
           </div>
