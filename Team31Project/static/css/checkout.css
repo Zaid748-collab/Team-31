@@ -1,0 +1,113 @@
+/* === PAGE BACKGROUND === */
+body {
+  background: linear-gradient(180deg, #41006b, #9a57b4); 
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+/* === CHECKOUT CONTAINER === */
+.checkout-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;                 
+  border-radius: 14px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+  color: #000;                        
+}
+
+/* === TITLE === */
+.checkout-container h2 {
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  color: #41006b;                     
+  text-align: center;
+  font-weight: 700;
+}
+
+/* === ITEMS LIST === */
+.checkout-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 25px 0;
+}
+
+.checkout-items li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.checkout-items li:last-child {
+  border-bottom: none;
+}
+
+.checkout-item-info {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.checkout-item-info img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 2px solid #ff9600;          
+  background-color: #f9f9f9;
+}
+
+.checkout-item-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout-item-details span {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* === PRICE === */
+.checkout-price {
+  font-weight: 700;
+  color: #ff6600;                    
+  font-size: 1.1rem;
+}
+
+/* === TOTAL === */
+.checkout-container p.total {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: right;
+  margin: 25px 0;
+  color: #41006b;                     
+}
+
+/* === BUTTON === */
+.checkout-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: #ff6600;                
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.checkout-btn:hover {
+  background: #e05500;
+  transform: translateY(-2px);
+}
+
+.checkout-btn:active {
+  background: #c94a00;
+  transform: translateY(0);
+}

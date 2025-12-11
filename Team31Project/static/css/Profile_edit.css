@@ -1,0 +1,103 @@
+/* === PAGE BACKGROUND === */
+body {
+  background: linear-gradient(180deg, #41006b, #9a57b4);
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #fff;
+}
+
+/* === PROFILE EDIT CONTAINER === */
+.profile-edit-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff;                          
+  border-radius: 14px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+  color: #000;                               
+}
+
+/* === HEADER === */
+.profile-edit-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.profile-edit-header h2 {
+  color: #41006b;                            
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* === FORM === */
+.profile-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-edit-form label {
+  font-weight: 700;
+  color: #333;
+}
+
+.profile-edit-form input,
+.profile-edit-form select,
+.profile-edit-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-edit-form input:focus,
+.profile-edit-form select:focus,
+.profile-edit-form textarea:focus {
+  border-color: #ff9600;                     
+  box-shadow: 0 0 6px rgba(255,150,0,0.4);
+  outline: none;
+}
+
+/* === SAVE BUTTON === */
+.save-btn {
+  background: #ff6600;                      
+  color: #fff;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.save-btn:hover {
+  background: #e05500;
+  transform: translateY(-2px);
+}
+
+.save-btn:active {
+  background: #c94a00;
+  transform: translateY(0);
+}
+
+/* === CANCEL BUTTON === */
+.cancel-btn {
+  background: #ccc;
+  color: #333;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background: #999;
+}

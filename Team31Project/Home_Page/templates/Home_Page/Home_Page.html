@@ -1,8 +1,101 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 
-{% block title %}About Us{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 
 {% block content %}
-<h2>This is the Home_Page app</h2>
-<p>Testing</p>
-{% endblock %}
+
+<h1 class="home-title">AstonTechHub</h1>
+
+<!-- ===== IMAGE CAROUSEL ===== -->
+<div class="carousel-container">
+  <div class="carousel-track">
+
+    <div class="carousel-slide">
+      <img src="https://res.cloudinary.com/dths40k1o/image/upload/v1764884597/carousel2_lk2thk.jpg" alt="Tech DJ Setup">
+    </div>
+
+    <div class="carousel-slide">
+      <img src="https://res.cloudinary.com/dths40k1o/image/upload/v1764884597/carousel3_fbich2.jpg" alt="Networking Lights">
+    </div>
+
+    <div class="carousel-slide">
+      <img src="https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg" alt="Motherboard Close-up">
+    </div>
+
+  </div>
+
+  <button class="carousel-btn left" onclick="moveCarousel(-1)">&#8249;</button>
+  <button class="carousel-btn right" onclick="moveCarousel(1)">&#8250;</button>
+</div>
+
+<!-- ========== SHOP BY CATEGORY ========== -->
+<section class="homepage-section">
+  <h2 class="section-title">Shop by Category</h2>
+
+  <div class="home-grid home-grid-3">
+    {% for cat in categories|slice:":3" %}
+      <div class="home-card category-large">
+        <a href="{% url 'products' %}?type={{ cat.type }}">
+          <div class="home-card-image-large">
+            <img src="{{ cat.image_url }}" alt="{{ cat.type }}">
+          </div>
+          <h3 class="home-card-title">{{ cat.type }}</h3>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ========== FEATURED PRODUCTS ========== -->
+<section class="homepage-section">
+  <h2 class="section-title">Featured Products</h2>
+
+  <div class="home-grid">
+    {% for product in featured_products %}
+      <div class="home-card product-card">
+        <a href="{% url 'product_detail' product.id %}">
+          <div class="home-card-image">
+            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+          </div>
+          <h3 class="home-card-title">{{ product.name }}</h3>
+          <p class="home-card-price">£{{ product.price }}</p>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+let currentIndex = 0;
+
+function updateCarouselPosition() {
+  const container = document.querySelector('.carousel-container');
+  const track = document.querySelector('.carousel-track');
+  const slides = document.querySelectorAll('.carousel-slide');
+
+  if (!container || !track || slides.length === 0) return;
+
+  const slideWidth = container.offsetWidth;
+  track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+}
+
+function moveCarousel(direction) {
+  const slides = document.querySelectorAll('.carousel-slide');
+  const total = slides.length;
+  currentIndex = (currentIndex + direction + total) % total;
+  updateCarouselPosition();
+}
+
+window.addEventListener('load', updateCarouselPosition);
+window.addEventListener('resize', updateCarouselPosition);
+setInterval(() => moveCarousel(1), 5000);
+</script>
+
+{% endblock content %}
+
+<footer>
+  <p>© 2025 AstonTechHub. All Rights Reserved.</p>
+</footer>

@@ -1,36 +1,53 @@
-from django.shortcuts import render
-from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from .forms import ProfileForm
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
-User = get_user_model()
+from .forms import UserForm
+
+
 @login_required
 def profile_view(request):
-    user = request.user if request.user.is_authenticated else None
-    context = {
-        'user': user,
-    } 
-    return render(request, 'profile/profile.html', context)
+    if not request.user.is_authenticated:
+        return render(request, "base.html", {"not_logged_in": True})
+    else:
+        return render(request, "Profile/profile.html", {"user": request.user})
+
+
 @login_required
 def edit_profile(request):
     user = request.user
     old_email = user.email
 
     if request.method == "POST":
-        form = ProfileForm(request.POST, instance=user)
+        # IMPORTANT: include request.FILES so uploaded images are handled
+        form = UserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             updated_user = form.save(commit=False)
 
-            # if email changed → set email_verified to False
+            # Reset email_verified if email changed
             if form.cleaned_data["email"] != old_email:
                 updated_user.email_verified = False
 
             updated_user.save()
             messages.success(request, "Profile updated successfully.")
-            return redirect("profile")   # back to view page
+            return redirect("profile")
     else:
-        # pre-fill with current values
-        form = ProfileForm(instance=user)
+        form = UserForm(instance=user)
 
-    return render(request, "Profile/Profile_edit.html", {"form": form})
+    return render(request, "Profile/profile_edit.html", {"form": form})
+
+
+def custom_login(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return JsonResponse({"success": True})
+        else:
+            return JsonResponse({"success": False, "error": "Invalid username or password."})
+    return JsonResponse({"success": False, "error": "Invalid request."})

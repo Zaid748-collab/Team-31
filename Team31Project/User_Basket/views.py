@@ -1,43 +1,129 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404
 from .models import Cart, CartItem
 from Product_List.models import Product
 
-
-def index(request):
-    return render(request, 'User_Basket/User_Basket.html', {'app_name': 'User_Basket'})
-
-def add_to_session_basket(request, product_id):
-    basket = request.session.get('basket', {})
-    basket[str(product_id)] = basket.get(str(product_id), 0) + 1
-    request.session['basket'] = basket
-    return redirect('basket')
-
-def add_to_db_basket(request, product_id):
-    cart, _ = Cart.objects.get_or_create(user_id=request.user.id)
-    item, created = CartItem.objects.get_or_create(cart_id=cart.id, product_id=product_id)
-    if not created:
-        item.quantity += 1
-    item.save()
-    return redirect('basket')
-
+@require_POST
 def add_to_basket(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+
     if request.user.is_authenticated:
-        return add_to_db_basket(request, product_id)
-    else:
-        return add_to_session_basket(request, product_id)
-    
-def basket_view(request):
-    if request.user.is_authenticated:
-        cart = Cart.objects.filter(user_id=request.user.id).first()
-        items = CartItem.objects.filter(cart_id=cart.id) if cart else []
-        total = sum(item.product.price * item.quantity for item in items)
-        return render(request, 'basket.html', {'items': items, 'db_mode': True, 'total': total})
+        cart, _ = Cart.objects.get_or_create(user=request.user)
+        item = CartItem.objects.filter(cart=cart, product=product).first()
+        if item:
+            item.quantity += 1
+            item.save()
+        else:
+            item = CartItem.objects.create(cart=cart, product=product, quantity=1)
+
+        items = CartItem.objects.filter(cart=cart)
+        total = sum(i.product.price * i.quantity for i in items)
     else:
         basket = request.session.get('basket', {})
-        items = []
-        total = 0
-        for product_id, quantity in basket.items():
-            product = Product.objects.get(id=product_id)
-            items.append({'product': product, 'quantity': quantity})
-            total += product.price * quantity
-        return render(request, 'basket.html', {'items': items, 'db_mode': False, 'total': total})
+        basket[str(product_id)] = basket.get(str(product_id), 0) + 1
+        request.session['basket'] = basket
+        items = [{'product': Product.objects.get(id=pid), 'quantity': qty} for pid, qty in basket.items()]
+        total = sum(i['product'].price * i['quantity'] for i in items)
+
+    basket_data = {
+        "items": [
+            {
+                "id": i.product.id,
+                "name": i.product.name,
+                "price": str(i.product.price),
+                "image_url": i.product.image_url,
+                "quantity": i.quantity,
+            } if hasattr(i, "product") else {
+                "id": i['product'].id,
+                "name": i['product'].name,
+                "price": str(i['product'].price),
+                "image_url": i['product'].image_url,
+                "quantity": i['quantity'],
+            }
+            for i in items
+        ],
+        "total": str(total),
+    }
+    return JsonResponse(basket_data)
+
+
+@require_POST
+def remove_from_basket(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user).first()
+        if cart:
+            item = CartItem.objects.filter(cart=cart, product=product).first()
+            if item:
+                if item.quantity > 1:
+                    item.quantity -= 1
+                    item.save()
+                else:
+                    item.delete()
+        items = CartItem.objects.filter(cart=cart) if cart else []
+        total = sum(i.product.price * i.quantity for i in items)
+    else:
+        basket = request.session.get('basket', {})
+        if str(product_id) in basket:
+            if basket[str(product_id)] > 1:
+                basket[str(product_id)] -= 1
+            else:
+                basket.pop(str(product_id))
+        request.session['basket'] = basket
+        items = [{'product': Product.objects.get(id=pid), 'quantity': qty} for pid, qty in basket.items()]
+        total = sum(i['product'].price * i['quantity'] for i in items)
+
+    basket_data = {
+        "items": [
+            {
+                "id": i.product.id,
+                "name": i.product.name,
+                "price": str(i.product.price),
+                "image_url": i.product.image_url,
+                "quantity": i.quantity,
+            } if hasattr(i, "product") else {
+                "id": i['product'].id,
+                "name": i['product'].name,
+                "price": str(i['product'].price),
+                "image_url": i['product'].image_url,
+                "quantity": i['quantity'],
+            }
+            for i in items
+        ],
+        "total": str(total),
+    }
+    return JsonResponse(basket_data)
+
+
+def basket_view(request):
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user).first()
+        items = CartItem.objects.filter(cart=cart) if cart else []
+        total = sum(i.product.price * i.quantity for i in items)
+    else:
+        basket = request.session.get('basket', {})
+        items = [{'product': Product.objects.get(id=pid), 'quantity': qty} for pid, qty in basket.items()]
+        total = sum(i['product'].price * i['quantity'] for i in items)
+
+    basket_data = {
+        "items": [
+            {
+                "id": i.product.id,
+                "name": i.product.name,
+                "price": str(i.product.price),
+                "image_url": i.product.image_url,
+                "quantity": i.quantity,
+            } if hasattr(i, "product") else {
+                "id": i['product'].id,
+                "name": i['product'].name,
+                "price": str(i['product'].price),
+                "image_url": i['product'].image_url,
+                "quantity": i['quantity'],
+            }
+            for i in items
+        ],
+        "total": str(total),
+    }
+    return JsonResponse(basket_data)

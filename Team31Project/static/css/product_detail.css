@@ -1,0 +1,107 @@
+/* === PAGE BACKGROUND === */
+body {
+  background: linear-gradient(180deg, #41006b, #9a57b4);
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+/* === PRODUCT DETAIL CONTAINER === */
+.product-detail {
+  padding: 2rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #ff9600;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.product-detail-content {
+  display: flex;
+  gap: 2rem;
+  background: #fff;                   
+  padding: 2rem;
+  border-radius: 14px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+  color: #000;                          
+}
+
+/* === PRODUCT IMAGE === */
+.product-detail-image img {
+  max-width: 350px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid #ff9600;            
+}
+
+.placeholder-image {
+  width: 350px;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eee;
+  color: #666;
+  border-radius: 12px;
+}
+
+/* === PRODUCT INFO === */
+.product-detail-info h2 {
+  margin-top: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #41006b;                       
+}
+
+.product-detail-info .description {
+  margin: 1rem 0;
+  line-height: 1.5;
+  color: #333;
+}
+
+.product-detail-info .price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff6600;                       
+  margin-bottom: 1rem;
+}
+
+.product-detail-info .stock,
+.product-detail-info .type {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+/* === BUTTONS === */
+.add-btn,
+.add-basket-btn {
+  background: #ff6600;                  
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.add-btn:hover,
+.add-basket-btn:hover {
+  background: #e05500;
+  transform: translateY(-2px);
+}
+
+.add-btn:active,
+.add-basket-btn:active {
+  background: #c94a00;
+  transform: translateY(0);
+}

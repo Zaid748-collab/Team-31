@@ -1,0 +1,168 @@
+/* === CONTACT PAGE LAYOUT === */
+
+.contact-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 5% 80px;
+}
+
+/* Carte principale (comme les cartes produits) */
+.contact-card {
+  background: #1b2230;             /* même style que .product-card / .category-card */
+  border-radius: 20px;
+  padding: 32px 40px;
+  max-width: 1100px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 1.1fr;
+  gap: 32px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Colonne gauche : formulaire */
+
+.contact-title {
+  font-size: 2.2rem;
+  margin: 0 0 10px;
+  color: #ffffff;
+}
+
+.contact-subtitle {
+  margin: 0 0 24px;
+  color: #d0d4e4;
+  max-width: 520px;
+}
+
+.contact-form .form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.contact-form label {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #eee;
+}
+
+.contact-form input,
+.contact-form textarea {
+  border-radius: 10px;
+  border: none;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+  background: #141a24;          /* champs légèrement plus clairs que le fond */
+  color: #fff;
+}
+
+/* Bouton – aligné avec le thème global (orange) */
+
+.btn-primary {
+  margin-top: 8px;
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease,
+              transform 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #ffa64d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 102, 0, 0.3);
+}
+
+.success-msg {
+  margin-top: 10px;
+  color: #69f0ae;
+  font-size: 0.9rem;
+}
+
+/* === COLONNE DROITE : HELP SECTION (version pro) === */
+
+.contact-right {
+  align-self: center;
+}
+
+/* Titre */
+.contact-right h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+/* Liste d'aide */
+.contact-help-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+
+.contact-help-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+/* Petit rond neutre au lieu d'emoji */
+.help-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #ff6600;
+  margin-top: 7px;
+}
+
+/* Texte des lignes */
+.help-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.help-title {
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.help-desc {
+  color: #d0d4e4;
+  font-size: 0.85rem;
+}
+
+/* Email */
+
+.contact-email-label {
+  color: #d0d4e4;
+  margin: 8px 0 4px;
+}
+
+.contact-email-link {
+  font-weight: 600;
+  color: #ff6600;
+  text-decoration: none;
+}
+
+.contact-email-link:hover {
+  text-decoration: underline;
+}
+
+/* === RESPONSIVE === */
+
+@media (max-width: 900px) {
+  .contact-card {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+  }
+}

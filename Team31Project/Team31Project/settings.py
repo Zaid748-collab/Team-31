@@ -89,21 +89,12 @@ WSGI_APPLICATION = 'Team31Project.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': BASE_DIR / 'db.sqlite3',
- 
         'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.postgresql'),
-
         'NAME': os.environ.get('DB_NAME'),
-
         'USER': os.environ.get('DB_USER'),
-
         'PASSWORD': os.environ.get('DB_PASSWORD'),
-
         'HOST': os.environ.get('DB_HOST'),
-        
         'PORT': os.environ.get('DB_PORT'),
-
     }
 }
 
@@ -114,6 +105,8 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
 
 
 # Password validation
@@ -150,12 +143,33 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# =========================
+# EMAIL CONFIGURATION
+# =========================
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = "team31astontech@gmail.com"      # expéditeur
+EMAIL_HOST_PASSWORD = "ceueyvpdavbrwegg"       # mot de passe d'application
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+AUTH_USER_MODEL = 'Sign_Up.User'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/'
