@@ -33,6 +33,13 @@
           Add to basket
         </button>
       </form>
+      </form>
+
+{% if user.is_authenticated %}
+    <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-secondary">
+        ❤️ Add to Wishlist
+    </a>
+{% endif %}
     </div>
   </div>
 </div>

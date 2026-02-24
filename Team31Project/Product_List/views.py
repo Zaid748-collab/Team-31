@@ -55,3 +55,18 @@ def add_to_basket(request, pk):
         "total": str(total),
         "message": f"Added {product.name} to basket."
     })
+
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Product, WishlistItem
+
+@login_required
+def add_to_wishlist(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    WishlistItem.objects.get_or_create(
+        user=request.user,
+        product=product
+    )
+
+    return redirect('product_detail', product_id=product.id)
