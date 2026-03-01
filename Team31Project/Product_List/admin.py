@@ -13,3 +13,8 @@ class ProductAdmin(admin.ModelAdmin):
     )
     search_fields = ("name", "description", "type")
     list_filter = ("active", "type")
+
+from .models import Review, WishlistItem
+
+admin.site.register(Review)
+admin.site.register(WishlistItem)    

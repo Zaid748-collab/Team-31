@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Wishlist{% endblock %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 40px auto; background: white; padding: 25px; border-radius: 16px;">
+  <h2 style="margin-bottom:20px;">Your Wishlist</h2>
+
+  {% if items %}
+    <ul style="list-style:none; padding:0; margin:0;">
+      {% for item in items %}
+        <li style="display:flex; gap:16px; align-items:center; padding:12px 0; border-bottom:1px solid #eee;">
+          
+          {% if item.product.image_url %}
+            <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}"
+                 style="width:90px; height:auto; border-radius:10px; border:1px solid #ddd;">
+          {% endif %}
+
+          <div style="flex:1;">
+            <a href="{% url 'product_detail' item.product.id %}" style="font-weight:700; text-decoration:underline;">
+              {{ item.product.name }}
+            </a>
+            <div style="margin-top:6px;">£{{ item.product.price }}</div>
+          </div>
+
+          <a href="{% url 'product_detail' item.product.id %}"
+             style="padding:8px 12px; border-radius:8px; background:#eee; text-decoration:none;">
+             View
+          </a>
+
+          <a href="{% url 'remove_from_wishlist' item.id %}"
+             style="padding:8px 12px; border-radius:8px; background:#ffdddd; color:#a40000; text-decoration:none;">
+             Remove
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Your wishlist is empty.</p>
+  {% endif %}
+</div>
+{% endblock %}
