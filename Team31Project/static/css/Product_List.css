@@ -37,7 +37,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 460px;
-  overflow: hidden;
+  overflow: visible;
   color: #000;                            
 }
 
@@ -56,6 +56,7 @@ body {
   background: #f9f9f9;
   margin-bottom: 12px;
   border-radius: 10px;
+  
 }
 
 .product-image img {
@@ -182,4 +183,18 @@ body {
 .filter-container select:focus {
   border-color: #ff9600; /* orange accent */
   box-shadow: 0 0 0 3px rgba(255, 150, 0, 0.2);
+}
+
+.magnifier-lens {
+    position: absolute;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    cursor: none;
+    width: 200px;  
+    height: 200px;  
+    overflow: hidden;
+    pointer-events: none;
+    box-shadow: 0 0 12px rgba(0,0,0,0.35);
+    display: none;
+    z-index: 20;
 }

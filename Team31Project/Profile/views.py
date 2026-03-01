@@ -21,12 +21,10 @@ def edit_profile(request):
     old_email = user.email
 
     if request.method == "POST":
-        # IMPORTANT: include request.FILES so uploaded images are handled
         form = UserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             updated_user = form.save(commit=False)
 
-            # Reset email_verified if email changed
             if form.cleaned_data["email"] != old_email:
                 updated_user.email_verified = False
 
