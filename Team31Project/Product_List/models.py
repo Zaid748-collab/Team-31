@@ -26,11 +26,10 @@ class Review(models.Model):
     comment = models.TextField(blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ("user", "product")   # 1 review max par user et produit
-        ordering = ["-updated_at"]
+        unique_together = ("user", "product")  # 1 review max par user et produit
+        ordering = ["-created_at"]  # tri par date de création
 
     def __str__(self):
         return f"{self.product.name} - {self.rating}/5 by {self.user}"
@@ -46,4 +45,4 @@ class WishlistItem(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"{self.user} -> {self.product.name}"       
+        return f"{self.user} -> {self.product.name}"
