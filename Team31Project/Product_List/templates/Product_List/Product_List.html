@@ -42,6 +42,25 @@
         <div class="product-info">
           <p class="product-meta">
             Stock: {{ product.quantity_in_stock }}<br>
+            
+            {% if product.quantity_in_stock > 3 %}
+            <span class="stock-status in-stock">
+              <span class="stock-dot green"></span>
+              In Stock
+             </span>
+             {% elif product.quantity_in_stock > 0 %}
+             <span class="stock-status low-stock">
+              <span class="stock-dot orange"></span>
+              Low Stock
+            </span>
+            {% else %}
+            <span class="stock-status out-of-stock">
+              <span class="stock-dot red"></span>
+              Out of Stock
+            </span>
+            {% endif %}
+            <br>
+
             Category: {{ product.type }}
           </p>
         </div>
