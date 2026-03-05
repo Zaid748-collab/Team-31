@@ -5,14 +5,16 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
 from .forms import UserForm
+from Product_List.models import WishlistItem
 
 
 @login_required
 def profile_view(request):
-    if not request.user.is_authenticated:
-        return render(request, "base.html", {"not_logged_in": True})
-    else:
-        return render(request, "Profile/profile.html", {"user": request.user})
+    wishlist_items = WishlistItem.objects.filter(user=request.user).select_related("product")
+    return render(request, "Profile/profile.html", {
+        "user": request.user,
+        "wishlist_items": wishlist_items,
+    })
 
 
 @login_required

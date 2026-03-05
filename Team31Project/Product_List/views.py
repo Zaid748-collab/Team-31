@@ -83,8 +83,8 @@ def add_to_wishlist(request, product_id):
         product=product
     )
 
-    # Option A: go directly to wishlist page
-    return redirect("wishlist")
+    # ✅ Redirect to profile instead of wishlist
+    return redirect("profile")
 
 
 @login_required
@@ -96,7 +96,9 @@ def wishlist(request):
 @login_required
 def remove_from_wishlist(request, item_id):
     WishlistItem.objects.filter(id=item_id, user=request.user).delete()
-    return redirect("wishlist")
+
+    # ✅ Optional: after removing, send back to profile too
+    return redirect("profile")
 
 
 # -------------------- REVIEWS + RATINGS --------------------
