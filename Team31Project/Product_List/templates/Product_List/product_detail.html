@@ -40,53 +40,58 @@
         </a>
       {% endif %}
 
-      <hr class="review-divider">
+      <hr style="margin: 24px 0; opacity: 0.2;">
 
-      <div class="reviews-section">
-        <h3 class="reviews-title">Ratings & Reviews</h3>
+      <div style="margin-top: 22px; max-width: 900px;">
+        <h3 style="margin-bottom: 14px; color:#2f005f; font-size: 24px; font-weight: 800;">
+          Ratings & Reviews
+        </h3>
 
-        <div class="reviews-overview">
-          <div class="reviews-score-box">
-            <div class="big-rating">{{ avg_rating|floatformat:1 }}</div>
-            <div class="big-rating-outof">/ 5</div>
+        <div style="background: rgba(255,255,255,0.78); border-radius: 16px; padding: 18px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:12px;">
+            <div style="font-size: 34px; font-weight: 800; color:#2f005f;">
+              {{ avg_rating|floatformat:1 }}<span style="font-size:18px; color:#666;"> / 5</span>
+            </div>
 
-            <div class="stars-row">
+            <div style="font-size: 24px; color:#ff9800;">
               {% with rounded=avg_rating|floatformat:0 %}
-                {% if rounded|add:"0" >= 1 %}<span class="star filled">★</span>{% else %}<span class="star">☆</span>{% endif %}
-                {% if rounded|add:"0" >= 2 %}<span class="star filled">★</span>{% else %}<span class="star">☆</span>{% endif %}
-                {% if rounded|add:"0" >= 3 %}<span class="star filled">★</span>{% else %}<span class="star">☆</span>{% endif %}
-                {% if rounded|add:"0" >= 4 %}<span class="star filled">★</span>{% else %}<span class="star">☆</span>{% endif %}
-                {% if rounded|add:"0" >= 5 %}<span class="star filled">★</span>{% else %}<span class="star">☆</span>{% endif %}
+                {% if rounded|add:"0" >= 1 %}★{% else %}☆{% endif %}
+                {% if rounded|add:"0" >= 2 %}★{% else %}☆{% endif %}
+                {% if rounded|add:"0" >= 3 %}★{% else %}☆{% endif %}
+                {% if rounded|add:"0" >= 4 %}★{% else %}☆{% endif %}
+                {% if rounded|add:"0" >= 5 %}★{% else %}☆{% endif %}
               {% endwith %}
             </div>
 
-            <p class="review-count">{{ review_count }} review{{ review_count|pluralize }}</p>
+            <div style="color:#555; font-weight:500;">
+              {{ review_count }} review{{ review_count|pluralize }}
+            </div>
           </div>
 
-          <div class="rating-breakdown">
+          <div>
             {% for star, count in rating_distribution.items %}
-              <div class="rating-row">
-                <span class="rating-label">{{ star }}★</span>
-                <div class="rating-bar">
-                  <div class="rating-bar-fill" style="width:{% if review_count > 0 %}{% widthratio count review_count 100 %}{% else %}0{% endif %}%"></div>
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                <span style="width:32px; font-weight:700; color:#2f005f;">{{ star }}★</span>
+                <div style="flex:1; height:10px; background:#e6e6e6; border-radius:999px; overflow:hidden;">
+                  <div style="height:100%; background:linear-gradient(90deg,#ff9800,#ff6a00); width:{% if review_count > 0 %}{% widthratio count review_count 100 %}{% else %}0{% endif %}%;"></div>
                 </div>
-                <span class="rating-number">{{ count }}</span>
+                <span style="width:22px; text-align:right; color:#555;">{{ count }}</span>
               </div>
             {% endfor %}
           </div>
         </div>
 
         {% if user.is_authenticated %}
-          <div class="review-form-card">
-            <h4 class="review-form-title">
+          <div style="background: rgba(255,255,255,0.78); border-radius: 16px; padding: 18px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+            <h4 style="margin:0 0 14px; color:#2f005f; font-size:24px; font-weight:700;">
               {% if user_review %}Update your review{% else %}Write a review{% endif %}
             </h4>
 
             <form method="POST" action="{% url 'submit_review' product.id %}">
               {% csrf_token %}
 
-              <label class="review-label">Rating</label>
-              <select name="rating" required class="review-select">
+              <label style="display:block; margin-bottom:6px; font-weight:600; color:#2f005f;">Rating</label>
+              <select name="rating" required style="padding:10px 12px; border-radius:10px; border:1px solid #ddd; width:180px; margin-bottom:14px;">
                 {% for i in "12345" %}
                   {% with num=i|add:"0" %}
                     <option value="{{ num }}" {% if user_review and user_review.rating == num %}selected{% endif %}>
@@ -96,50 +101,59 @@
                 {% endfor %}
               </select>
 
-              <label class="review-label">Comment (optional)</label>
-              <textarea name="comment" rows="4" class="review-textarea" placeholder="Share your experience with this product...">{% if user_review %}{{ user_review.comment }}{% endif %}</textarea>
+              <label style="display:block; margin-bottom:6px; font-weight:600; color:#2f005f;">Comment (optional)</label>
+              <textarea
+                name="comment"
+                rows="4"
+                placeholder="Share your experience with this product..."
+                style="width:100%; padding:12px; border-radius:12px; border:1px solid #ddd; resize:vertical; margin-bottom:14px;"
+              >{% if user_review %}{{ user_review.comment }}{% endif %}</textarea>
 
-              <button type="submit" class="add-basket-btn review-submit-btn">
+              <button type="submit" class="add-basket-btn" style="padding:12px 22px; font-size:18px;">
                 {% if user_review %}Update Review{% else %}Submit Review{% endif %}
               </button>
             </form>
           </div>
         {% else %}
-          <p class="review-login-note">You must be logged in to write a review.</p>
+          <p style="opacity:0.9; margin-bottom:18px;">You must be logged in to write a review.</p>
         {% endif %}
 
-        <div class="reviews-list-block">
-          <h4 class="recent-reviews-title">Customer Reviews</h4>
+        <div>
+          <h4 style="margin-bottom:14px; color:#2f005f; font-size:24px; font-weight:700;">
+            Customer Reviews
+          </h4>
 
           {% if reviews %}
-            <div class="reviews-list">
+            <div style="display:flex; flex-direction:column; gap:14px;">
               {% for r in reviews %}
-                <div class="review-card">
-                  <div class="review-card-top">
+                <div style="background: rgba(255,255,255,0.72); border-radius: 14px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
                     <div>
-                      <div class="review-user">{{ r.user.username }}</div>
-                      <div class="review-stars">
-                        {% if r.rating >= 1 %}<span class="star filled">★</span>{% else %}<span class="star">☆</span>{% endif %}
-                        {% if r.rating >= 2 %}<span class="star filled">★</span>{% else %}<span class="star">☆</span>{% endif %}
-                        {% if r.rating >= 3 %}<span class="star filled">★</span>{% else %}<span class="star">☆</span>{% endif %}
-                        {% if r.rating >= 4 %}<span class="star filled">★</span>{% else %}<span class="star">☆</span>{% endif %}
-                        {% if r.rating >= 5 %}<span class="star filled">★</span>{% else %}<span class="star">☆</span>{% endif %}
+                      <strong style="display:block; color:#2f005f; font-size:17px;">{{ r.user.username }}</strong>
+                      <div style="margin-top:6px; font-size:20px; color:#ff9800;">
+                        {% if r.rating >= 1 %}★{% else %}☆{% endif %}
+                        {% if r.rating >= 2 %}★{% else %}☆{% endif %}
+                        {% if r.rating >= 3 %}★{% else %}☆{% endif %}
+                        {% if r.rating >= 4 %}★{% else %}☆{% endif %}
+                        {% if r.rating >= 5 %}★{% else %}☆{% endif %}
                       </div>
                     </div>
-                    <span class="review-date">{{ r.created_at|date:"d M Y" }}</span>
+                    <span style="font-size:14px; color:#666;">{{ r.created_at|date:"d M Y" }}</span>
                   </div>
 
                   {% if r.comment %}
-                    <p class="review-comment">{{ r.comment }}</p>
+                    <p style="margin:12px 0 0; color:#333; line-height:1.5;">{{ r.comment }}</p>
                   {% else %}
-                    <p class="review-comment review-comment-empty">No written comment provided.</p>
+                    <p style="margin:12px 0 0; color:#777; font-style:italic;">No written comment provided.</p>
                   {% endif %}
                 </div>
               {% endfor %}
             </div>
           {% else %}
-            <div class="review-empty-state">
-              <p>No reviews yet. Be the first to review this product.</p>
+            <div style="background: rgba(255,255,255,0.72); border-radius: 14px; padding: 16px;">
+              <p style="margin:0; color:#555; line-height:1.5;">
+                No reviews yet. Be the first to rate this product and share your experience.
+              </p>
             </div>
           {% endif %}
         </div>
