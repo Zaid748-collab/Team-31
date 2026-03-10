@@ -32,8 +32,7 @@ def product_detail(request, pk):
         recent.remove(product.id)
 
     recent.insert(0, product.id)   # newest first
-    recent = recent[:6]            # keep last 6
-
+    recent = recent[:2]            # keep last 2
     request.session["recently_viewed"] = recent
     request.session.modified = True
 # --------------------------------
