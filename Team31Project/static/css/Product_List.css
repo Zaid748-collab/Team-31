@@ -182,7 +182,7 @@ body {
 
 .filter-container input:focus,
 .filter-container select:focus {
-  border-color: #ff9600; /* orange accent */
+  border-color: #ff9600;
   box-shadow: 0 0 0 3px rgba(255, 150, 0, 0.2);
 }
 
