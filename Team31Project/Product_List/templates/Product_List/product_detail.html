@@ -39,6 +39,96 @@
           ❤️ Add to Wishlist
         </a>
       {% endif %}
+
+      <hr style="margin: 24px 0; opacity: 0.2;">
+
+      <!-- ===== Reviews Summary ===== -->
+      <div style="margin-bottom: 18px;">
+        <h3 style="margin: 0 0 8px;">Ratings & Reviews</h3>
+
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <strong style="font-size:18px;">{{ avg_rating|floatformat:1 }}/5</strong>
+          <span style="opacity:0.85;">({{ review_count }} review{{ review_count|pluralize }})</span>
+        </div>
+
+        <div style="margin-top:6px; font-size:18px; line-height:1;">
+          {% with rounded=avg_rating|floatformat:0 %}
+            {% if rounded|add:"0" >= 1 %}★{% else %}☆{% endif %}
+            {% if rounded|add:"0" >= 2 %}★{% else %}☆{% endif %}
+            {% if rounded|add:"0" >= 3 %}★{% else %}☆{% endif %}
+            {% if rounded|add:"0" >= 4 %}★{% else %}☆{% endif %}
+            {% if rounded|add:"0" >= 5 %}★{% else %}☆{% endif %}
+          {% endwith %}
+        </div>
+      </div>
+
+      <!-- ===== Review Form ===== -->
+      {% if user.is_authenticated %}
+        <div style="background: rgba(255,255,255,0.75); padding: 14px; border-radius: 10px;">
+          <h4 style="margin:0 0 10px;">
+            {% if user_review %}Update your review{% else %}Write a review{% endif %}
+          </h4>
+
+          <form method="POST" action="{% url 'submit_review' product.id %}">
+            {% csrf_token %}
+
+            <label style="display:block; margin-bottom:6px;">Rating</label>
+            <select name="rating" required style="padding:8px; border-radius:8px; width: 160px;">
+              {% for i in "12345" %}
+                {% with num=i|add:"0" %}
+                  <option value="{{ num }}"
+                    {% if user_review and user_review.rating == num %}selected{% endif %}>
+                    {{ num }} ★
+                  </option>
+                {% endwith %}
+              {% endfor %}
+            </select>
+
+            <label style="display:block; margin:12px 0 6px;">Comment (optional)</label>
+            <textarea name="comment" rows="3" style="width:100%; padding:10px; border-radius:8px; resize:vertical;"
+              placeholder="Share your thoughts...">{% if user_review %}{{ user_review.comment }}{% endif %}</textarea>
+
+            <button type="submit" class="add-basket-btn" style="margin-top:12px;">
+              {% if user_review %}Update Review{% else %}Submit Review{% endif %}
+            </button>
+          </form>
+        </div>
+      {% else %}
+        <p style="opacity:0.9;">You must be logged in to write a review.</p>
+      {% endif %}
+
+      <!-- ===== Reviews List ===== -->
+      <div style="margin-top: 18px;">
+        {% if reviews %}
+          <h4 style="margin: 0 0 10px;">Recent Reviews</h4>
+
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            {% for r in reviews %}
+              <div style="background: rgba(255,255,255,0.65); padding: 12px; border-radius: 10px;">
+                <div style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+                  <strong>{{ r.user.username }}</strong>
+                  <span style="opacity:0.85; font-size: 14px;">{{ r.created_at|date:"d M Y" }}</span>
+                </div>
+
+                <div style="margin-top:6px; font-size:18px; line-height:1;">
+                  {% if r.rating >= 1 %}★{% else %}☆{% endif %}
+                  {% if r.rating >= 2 %}★{% else %}☆{% endif %}
+                  {% if r.rating >= 3 %}★{% else %}☆{% endif %}
+                  {% if r.rating >= 4 %}★{% else %}☆{% endif %}
+                  {% if r.rating >= 5 %}★{% else %}☆{% endif %}
+                </div>
+
+                {% if r.comment %}
+                  <p style="margin: 8px 0 0;">{{ r.comment }}</p>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p style="opacity:0.85; margin-top: 12px;">No reviews yet. Be the first to review!</p>
+        {% endif %}
+      </div>
+
     </div>
   </div>
 </div>

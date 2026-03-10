@@ -1,8 +1,13 @@
+from itertools import product
+from urllib import request
+
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.db.models import Avg, Count
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .models import Product, WishlistItem
+from .models import Product, WishlistItem, Review
 
 
 def index(request):
@@ -20,8 +25,32 @@ def index(request):
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
+    # ---- Recently viewed logic ----
+    recent = request.session.get("recently_viewed", [])
+
+    if product.id in recent:
+        recent.remove(product.id)
+
+    recent.insert(0, product.id)   # newest first
+    recent = recent[:6]            # keep last 6
+
+    request.session["recently_viewed"] = recent
+    request.session.modified = True
+# --------------------------------
+    # Reviews + rating stats
+    reviews = Review.objects.filter(product=product).select_related("user")
+    stats = reviews.aggregate(avg=Avg("rating"), count=Count("id"))
+
+    user_review = None
+    if request.user.is_authenticated:
+        user_review = Review.objects.filter(product=product, user=request.user).first()
+
     return render(request, "Product_List/product_detail.html", {
         "product": product,
+        "reviews": reviews,
+        "avg_rating": stats["avg"] or 0,
+        "review_count": stats["count"] or 0,
+        "user_review": user_review,
     })
 
 
@@ -30,7 +59,7 @@ def add_to_basket(request, pk):
         return JsonResponse({"error": "Invalid request"}, status=400)
 
     product = get_object_or_404(Product, pk=pk)
-
+    
     cart = request.session.get("cart", {})
     str_id = str(product.id)
     cart[str_id] = cart.get(str_id, 0) + 1
@@ -56,6 +85,7 @@ def add_to_basket(request, pk):
         "message": f"Added {product.name} to basket."
     })
 
+# -------------------- WISHLIST --------------------
 
 @login_required
 def add_to_wishlist(request, product_id):
@@ -66,8 +96,8 @@ def add_to_wishlist(request, product_id):
         product=product
     )
 
-    # Option A: go directly to wishlist page
-    return redirect("wishlist")
+    # ✅ Redirect to profile instead of wishlist
+    return redirect("profile")
 
 
 @login_required
@@ -79,4 +109,38 @@ def wishlist(request):
 @login_required
 def remove_from_wishlist(request, item_id):
     WishlistItem.objects.filter(id=item_id, user=request.user).delete()
-    return redirect("wishlist")
+
+    # ✅ Optional: after removing, send back to profile too
+    return redirect("profile")
+
+
+# -------------------- REVIEWS + RATINGS --------------------
+
+@login_required
+def submit_review(request, product_id):
+    if request.method != "POST":
+        return redirect("product_detail", pk=product_id)
+
+    product = get_object_or_404(Product, pk=product_id)
+
+    rating = request.POST.get("rating")
+    comment = (request.POST.get("comment") or "").strip()
+
+    # validate rating 1..5
+    try:
+        rating_int = int(rating)
+        if rating_int < 1 or rating_int > 5:
+            raise ValueError
+    except Exception:
+        messages.error(request, "Rating must be a number between 1 and 5.")
+        return redirect("product_detail", pk=product.id)
+
+    # 1 review per user per product (update if exists)
+    Review.objects.update_or_create(
+        user=request.user,
+        product=product,
+        defaults={"rating": rating_int, "comment": comment},
+    )
+
+    messages.success(request, "Your review was saved ✅")
+    return redirect("product_detail", pk=product.id)
