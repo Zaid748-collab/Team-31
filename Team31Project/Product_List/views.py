@@ -1,3 +1,6 @@
+from itertools import product
+from urllib import request
+
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Avg, Count
@@ -22,6 +25,11 @@ def index(request):
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
+    # ---- Recently viewed logic ----
+    recent = request.session.get("recently_viewed", [])
+
+    if product.id in recent:
+        recent.remove(product.id)
 
     reviews = Review.objects.filter(product=product).select_related("user")
     stats = reviews.aggregate(avg=Avg("rating"), count=Count("id"))
@@ -52,7 +60,7 @@ def add_to_basket(request, pk):
         return JsonResponse({"error": "Invalid request"}, status=400)
 
     product = get_object_or_404(Product, pk=pk)
-
+    
     cart = request.session.get("cart", {})
     str_id = str(product.id)
     cart[str_id] = cart.get(str_id, 0) + 1
@@ -77,7 +85,6 @@ def add_to_basket(request, pk):
         "total": str(total),
         "message": f"Added {product.name} to basket."
     })
-
 
 # -------------------- WISHLIST --------------------
 
