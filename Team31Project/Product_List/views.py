@@ -31,27 +31,29 @@ def product_detail(request, pk):
     if product.id in recent:
         recent.remove(product.id)
 
-    recent.insert(0, product.id)   # newest first
-    recent = recent[:2]            # keep last 2
-    request.session["recently_viewed"] = recent
-    request.session.modified = True
-# --------------------------------
-    # Reviews + rating stats
     reviews = Review.objects.filter(product=product).select_related("user")
     stats = reviews.aggregate(avg=Avg("rating"), count=Count("id"))
 
+    rating_distribution = {
+        5: reviews.filter(rating=5).count(),
+        4: reviews.filter(rating=4).count(),
+        3: reviews.filter(rating=3).count(),
+        2: reviews.filter(rating=2).count(),
+        1: reviews.filter(rating=1).count(),
+    }
+
     user_review = None
     if request.user.is_authenticated:
-        user_review = Review.objects.filter(product=product, user=request.user).first()
+        user_review = reviews.filter(user=request.user).first()
 
     return render(request, "Product_List/product_detail.html", {
         "product": product,
         "reviews": reviews,
         "avg_rating": stats["avg"] or 0,
         "review_count": stats["count"] or 0,
+        "rating_distribution": rating_distribution,
         "user_review": user_review,
     })
-
 
 def add_to_basket(request, pk):
     if request.method != "POST":
