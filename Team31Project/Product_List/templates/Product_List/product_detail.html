@@ -42,91 +42,121 @@
 
       <hr style="margin: 24px 0; opacity: 0.2;">
 
-      <!-- ===== Reviews Summary ===== -->
-      <div style="margin-bottom: 18px;">
-        <h3 style="margin: 0 0 8px;">Ratings & Reviews</h3>
+      <div style="margin-top: 22px; max-width: 900px;">
+        <h3 style="margin-bottom: 14px; color:#2f005f; font-size: 24px; font-weight: 800;">
+          Ratings & Reviews
+        </h3>
 
-        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-          <strong style="font-size:18px;">{{ avg_rating|floatformat:1 }}/5</strong>
-          <span style="opacity:0.85;">({{ review_count }} review{{ review_count|pluralize }})</span>
-        </div>
+        <div style="background: rgba(255,255,255,0.78); border-radius: 16px; padding: 18px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:12px;">
+            <div style="font-size: 34px; font-weight: 800; color:#2f005f;">
+              {{ avg_rating|floatformat:1 }}<span style="font-size:18px; color:#666;"> / 5</span>
+            </div>
 
-        <div style="margin-top:6px; font-size:18px; line-height:1;">
-          {% with rounded=avg_rating|floatformat:0 %}
-            {% if rounded|add:"0" >= 1 %}★{% else %}☆{% endif %}
-            {% if rounded|add:"0" >= 2 %}★{% else %}☆{% endif %}
-            {% if rounded|add:"0" >= 3 %}★{% else %}☆{% endif %}
-            {% if rounded|add:"0" >= 4 %}★{% else %}☆{% endif %}
-            {% if rounded|add:"0" >= 5 %}★{% else %}☆{% endif %}
-          {% endwith %}
-        </div>
-      </div>
+            <div style="font-size: 24px; color:#ff9800;">
+              {% with rounded=avg_rating|floatformat:0 %}
+                {% if rounded|add:"0" >= 1 %}★{% else %}☆{% endif %}
+                {% if rounded|add:"0" >= 2 %}★{% else %}☆{% endif %}
+                {% if rounded|add:"0" >= 3 %}★{% else %}☆{% endif %}
+                {% if rounded|add:"0" >= 4 %}★{% else %}☆{% endif %}
+                {% if rounded|add:"0" >= 5 %}★{% else %}☆{% endif %}
+              {% endwith %}
+            </div>
 
-      <!-- ===== Review Form ===== -->
-      {% if user.is_authenticated %}
-        <div style="background: rgba(255,255,255,0.75); padding: 14px; border-radius: 10px;">
-          <h4 style="margin:0 0 10px;">
-            {% if user_review %}Update your review{% else %}Write a review{% endif %}
-          </h4>
+            <div style="color:#555; font-weight:500;">
+              {{ review_count }} review{{ review_count|pluralize }}
+            </div>
+          </div>
 
-          <form method="POST" action="{% url 'submit_review' product.id %}">
-            {% csrf_token %}
-
-            <label style="display:block; margin-bottom:6px;">Rating</label>
-            <select name="rating" required style="padding:8px; border-radius:8px; width: 160px;">
-              {% for i in "12345" %}
-                {% with num=i|add:"0" %}
-                  <option value="{{ num }}"
-                    {% if user_review and user_review.rating == num %}selected{% endif %}>
-                    {{ num }} ★
-                  </option>
-                {% endwith %}
-              {% endfor %}
-            </select>
-
-            <label style="display:block; margin:12px 0 6px;">Comment (optional)</label>
-            <textarea name="comment" rows="3" style="width:100%; padding:10px; border-radius:8px; resize:vertical;"
-              placeholder="Share your thoughts...">{% if user_review %}{{ user_review.comment }}{% endif %}</textarea>
-
-            <button type="submit" class="add-basket-btn" style="margin-top:12px;">
-              {% if user_review %}Update Review{% else %}Submit Review{% endif %}
-            </button>
-          </form>
-        </div>
-      {% else %}
-        <p style="opacity:0.9;">You must be logged in to write a review.</p>
-      {% endif %}
-
-      <!-- ===== Reviews List ===== -->
-      <div style="margin-top: 18px;">
-        {% if reviews %}
-          <h4 style="margin: 0 0 10px;">Recent Reviews</h4>
-
-          <div style="display:flex; flex-direction:column; gap:12px;">
-            {% for r in reviews %}
-              <div style="background: rgba(255,255,255,0.65); padding: 12px; border-radius: 10px;">
-                <div style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;">
-                  <strong>{{ r.user.username }}</strong>
-                  <span style="opacity:0.85; font-size: 14px;">{{ r.created_at|date:"d M Y" }}</span>
+          <div>
+            {% for star, count in rating_distribution.items %}
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                <span style="width:32px; font-weight:700; color:#2f005f;">{{ star }}★</span>
+                <div style="flex:1; height:10px; background:#e6e6e6; border-radius:999px; overflow:hidden;">
+                  <div style="height:100%; background:linear-gradient(90deg,#ff9800,#ff6a00); width:{% if review_count > 0 %}{% widthratio count review_count 100 %}{% else %}0{% endif %}%;"></div>
                 </div>
-
-                <div style="margin-top:6px; font-size:18px; line-height:1;">
-                  {% if r.rating >= 1 %}★{% else %}☆{% endif %}
-                  {% if r.rating >= 2 %}★{% else %}☆{% endif %}
-                  {% if r.rating >= 3 %}★{% else %}☆{% endif %}
-                  {% if r.rating >= 4 %}★{% else %}☆{% endif %}
-                  {% if r.rating >= 5 %}★{% else %}☆{% endif %}
-                </div>
-
-                {% if r.comment %}
-                  <p style="margin: 8px 0 0;">{{ r.comment }}</p>
-                {% endif %}
+                <span style="width:22px; text-align:right; color:#555;">{{ count }}</span>
               </div>
             {% endfor %}
           </div>
+        </div>
+
+        {% if user.is_authenticated %}
+          <div style="background: rgba(255,255,255,0.78); border-radius: 16px; padding: 18px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+            <h4 style="margin:0 0 14px; color:#2f005f; font-size:24px; font-weight:700;">
+              {% if user_review %}Update your review{% else %}Write a review{% endif %}
+            </h4>
+
+            <form method="POST" action="{% url 'submit_review' product.id %}">
+              {% csrf_token %}
+
+              <label style="display:block; margin-bottom:6px; font-weight:600; color:#2f005f;">Rating</label>
+              <select name="rating" required style="padding:10px 12px; border-radius:10px; border:1px solid #ddd; width:180px; margin-bottom:14px;">
+                {% for i in "12345" %}
+                  {% with num=i|add:"0" %}
+                    <option value="{{ num }}" {% if user_review and user_review.rating == num %}selected{% endif %}>
+                      {{ num }} ★
+                    </option>
+                  {% endwith %}
+                {% endfor %}
+              </select>
+
+              <label style="display:block; margin-bottom:6px; font-weight:600; color:#2f005f;">Comment (optional)</label>
+              <textarea
+                name="comment"
+                rows="4"
+                placeholder="Share your experience with this product..."
+                style="width:100%; padding:12px; border-radius:12px; border:1px solid #ddd; resize:vertical; margin-bottom:14px;"
+              >{% if user_review %}{{ user_review.comment }}{% endif %}</textarea>
+
+              <button type="submit" class="add-basket-btn" style="padding:12px 22px; font-size:18px;">
+                {% if user_review %}Update Review{% else %}Submit Review{% endif %}
+              </button>
+            </form>
+          </div>
         {% else %}
-          <p style="opacity:0.85; margin-top: 12px;">No reviews yet. Be the first to review!</p>
+          <p style="opacity:0.9; margin-bottom:18px;">You must be logged in to write a review.</p>
         {% endif %}
+
+        <div>
+          <h4 style="margin-bottom:14px; color:#2f005f; font-size:24px; font-weight:700;">
+            Customer Reviews
+          </h4>
+
+          {% if reviews %}
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              {% for r in reviews %}
+                <div style="background: rgba(255,255,255,0.72); border-radius: 14px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+                    <div>
+                      <strong style="display:block; color:#2f005f; font-size:17px;">{{ r.user.username }}</strong>
+                      <div style="margin-top:6px; font-size:20px; color:#ff9800;">
+                        {% if r.rating >= 1 %}★{% else %}☆{% endif %}
+                        {% if r.rating >= 2 %}★{% else %}☆{% endif %}
+                        {% if r.rating >= 3 %}★{% else %}☆{% endif %}
+                        {% if r.rating >= 4 %}★{% else %}☆{% endif %}
+                        {% if r.rating >= 5 %}★{% else %}☆{% endif %}
+                      </div>
+                    </div>
+                    <span style="font-size:14px; color:#666;">{{ r.created_at|date:"d M Y" }}</span>
+                  </div>
+
+                  {% if r.comment %}
+                    <p style="margin:12px 0 0; color:#333; line-height:1.5;">{{ r.comment }}</p>
+                  {% else %}
+                    <p style="margin:12px 0 0; color:#777; font-style:italic;">No written comment provided.</p>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div style="background: rgba(255,255,255,0.72); border-radius: 14px; padding: 16px;">
+              <p style="margin:0; color:#555; line-height:1.5;">
+                No reviews yet. Be the first to rate this product and share your experience.
+              </p>
+            </div>
+          {% endif %}
+        </div>
       </div>
 
     </div>
