@@ -30,6 +30,7 @@
   <button class="carousel-btn left" onclick="moveCarousel(-1)">&#8249;</button>
   <button class="carousel-btn right" onclick="moveCarousel(1)">&#8250;</button>
 </div>
+
 {% if recently_viewed_products %}
 <section class="homepage-section">
   <h2 class="section-title">Recently Viewed</h2>
@@ -42,13 +43,14 @@
             <img src="{{ product.image_url }}" alt="{{ product.name }}">
           </div>
           <h3 class="home-card-title">{{ product.name }}</h3>
-          <p class="home-card-price">£{{ product.price }}</p>
+          <p class="home-card-price" data-base-price="{{ product.price }}">£{{ product.price }}</p>  <!-- ← UPDATED -->
         </a>
       </div>
     {% endfor %}
   </div>
 </section>
 {% endif %}
+
 <!-- ========== SHOP BY CATEGORY ========== -->
 <section class="homepage-section">
   <h2 class="section-title">Shop by Category</h2>
@@ -79,7 +81,7 @@
             <img src="{{ product.image_url }}" alt="{{ product.name }}">
           </div>
           <h3 class="home-card-title">{{ product.name }}</h3>
-          <p class="home-card-price">£{{ product.price }}</p>
+          <p class="home-card-price" data-base-price="{{ product.price }}">£{{ product.price }}</p>  <!-- ← UPDATED -->
         </a>
       </div>
     {% endfor %}
