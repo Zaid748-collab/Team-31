@@ -85,7 +85,8 @@ body {
   line-height: 1.3rem;
 
   display: -webkit-box;
-  -webkit-line-clamp: 2; 
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -198,7 +199,6 @@ body {
     display: none;
     z-index: 20;
 }
-
 
 /* title */
 
@@ -369,4 +369,30 @@ body {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
+}
+.stock-status {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.stock-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+/* Colors */
+.stock-dot.green {
+  background-color: #28a745;
+}
+
+.stock-dot.orange {
+  background-color: #ff9800;
+}
+
+.stock-dot.red {
+  background-color: #dc3545;
 }

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/currency.css' %}"> 
     {% block extra_css %}{% endblock %}
 </head>
 
@@ -25,6 +26,10 @@
             </ul>
 
             <ul class="nav-icons">
+                <li>
+                    {% include 'currency_switcher.html' %}  
+                </li>
+
                 <li>
                     <a href="#" id="basket-icon" class="nav-link">
                         <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764076078/cart_adnbat.png"
@@ -132,7 +137,7 @@
 
     <!-- ========================= LOGIN NOTIFICATION ========================= -->
     <div id="login-notification" class="login-notification">
-        You aren’t currently logged in.
+        You aren't currently logged in.
     </div>
 
     <!-- ========================= CHAT ASSISTANT WIDGET ========================= -->
@@ -195,8 +200,10 @@
                 }
                 return cookieValue;
             }
+    
+         
 
-            function renderBasket(data) {
+       function renderBasket(data) {
                 if (data.items.length > 0) {
                     let html = "<ul>";
                     data.items.forEach(item => {
@@ -204,13 +211,13 @@
                             <li class="basket-item">
                                 <img src="${item.image_url}" alt="${item.name}" class="basket-item-img">
                                 <span class="basket-item-name">${item.name}</span>
-                                <span class="basket-item-price">£${item.price}</span>
+                                <span class="basket-item-price" data-base-price="${item.price}">${convertPrice(item.price)}</span>  <!-- ← UPDATED -->
                                 <span class="basket-item-qty">x${item.quantity}</span>
                                 <button class="remove-btn" data-product-id="${item.id}">Remove</button>
                             </li>`;
                     });
                     html += `</ul>
-                        <div class="basket-total">Total: £${data.total}</div>
+                        <div class="basket-total" data-base-price="${data.total}">Total: ${convertPrice(data.total)}</div>  <!-- ← UPDATED -->
                         <div class="basket-footer">
                             <button id="checkout-btn" class="checkout-btn">Checkout</button>
                         </div>`;
@@ -379,6 +386,8 @@
             });
         });
     </script>
+
+    <script src="{% static 'js/currency.js' %}"></script>  
 
 </body>
 
