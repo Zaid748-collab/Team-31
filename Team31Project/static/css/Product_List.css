@@ -200,6 +200,176 @@ body {
     z-index: 20;
 }
 
+/* title */
+
+.compare-title{
+    color:white;
+    margin-bottom:25px;
+}
+
+/* ===== Compare Section ===== */
+.compare-section{
+    border-top:1px solid rgba(255,255,255,0.2);
+    padding-top:60px;
+    margin:80px auto;
+    max-width:1000px;
+    padding: 30px;
+    text-align: center;
+}
+
+/* top row */
+.compare-controls{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+    
+}
+
+/* products layout */
+
+.compare-products{
+    display:flex;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    justify-content:center;
+}
+
+/* column layout */
+
+.compare-column{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* dropdowns */
+
+.compare-column select{
+    margin-bottom:15px;
+    padding:8px 12px;
+    border-radius:6px;
+    border:none;
+    background: rgba(255,255,255,0.6);
+    color:rgb(0, 0, 0);
+    width:260px;
+    max-width:260px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* product cards */
+
+.compare-card{
+    width:300px;
+    min-height:420px;
+
+    background: rgba(90, 30, 128, 0.484); 
+    backdrop-filter: blur(6px);
+    color:white;
+    border-radius:12px;
+
+    padding:15px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,0.35);
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.compare-card img{
+    width:100%;
+    max-height:180px;
+    object-fit:contain;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+/* placeholder text */
+.compare-placeholder{
+    color:#ffffff;
+    font-size:1rem;
+    text-align:center;
+}
+
+/* compare button */
+#compareBtn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+
+    background: rgba(255,255,255,0.6);
+    color: #222;
+
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+#compareBtn:hover {
+    background: rgba(255,255,255,0.75);
+    transform: translateY(-2px);
+}
+
+.compare-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 6px 18px rgba(0,0,0,0.15);
+}
+
+.compare-card h3{
+    font-size:1.2rem;
+    margin:10px 0 5px 0;
+    text-align:center;
+}
+
+/* comparison highlights */
+
+.better-spec{
+    color:#1a8f3c;
+    font-weight:bold;
+}
+
+.worse-spec{
+    color:#c0392b;
+    font-weight:bold;
+}
+
+/* category + button row */
+
+.compare-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    max-width:600px;
+    margin:0 auto 30px auto;
+}
+
+/* dropdown styling */
+
+.compare-controls select,
+.compare-column select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(255,255,255,0.6);
+    color: rgb(0, 0, 0);
+    width: 190px;
+    max-width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
 .stock-status {
   display: inline-flex;
   align-items: center;

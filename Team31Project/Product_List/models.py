@@ -1,6 +1,16 @@
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
+import json
+
+
+class SafeJSONField(models.JSONField):
+    def from_db_value(self, value, expression, connection):
+        if value is None:
+            return value
+        if isinstance(value, (dict, list)):
+            return value
+        return super().from_db_value(value, expression, connection)
 
 
 class Product(models.Model):
@@ -13,8 +23,9 @@ class Product(models.Model):
     active = models.BooleanField(default=True)
     type = models.CharField(max_length=50)
 
+    specs = SafeJSONField(blank=True, null=True)
+
     class Meta:
-        managed = False
         db_table = "Product"
 
 
