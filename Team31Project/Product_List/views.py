@@ -17,8 +17,19 @@ def index(request):
     if category_type:
         products = products.filter(type__iexact=category_type)
 
+    product_data = list(products.values(
+        "id",
+        "name",
+        "type",
+        "price",
+        "quantity_in_stock",
+        "image_url",
+        "specs",
+    ))
+
     return render(request, "Product_List/Product_List.html", {
         "products": products,
+        "product_data": product_data,
         "selected_type": category_type,
     })
 

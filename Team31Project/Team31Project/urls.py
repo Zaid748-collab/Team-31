@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
+from Team31Project.currency_utils import set_currency_view
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -17,4 +19,5 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='Sign_Up/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path("chat/", include("Chat_Assistant.urls")),
+    path("set-currency/", set_currency_view, name="set_currency"),
 ]

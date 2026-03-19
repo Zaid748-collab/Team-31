@@ -8,54 +8,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
-    
     {% block extra_css %}{% endblock %}
 </head>
 
 <body>
 
-    <!-- ========================= NAVBAR ========================= -->
     <header>
         <nav class="navbar">
-            <ul class="nav-list">
-                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-                <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
-                <li><a href="{% url 'contact' %}" class="nav-link">Contact Us</a></li>
-                <li><a href="{% url 'products' %}" class="nav-link">Products</a></li>
-                <li><a href="{% url 'signup' %}" class="nav-link">Sign Up</a></li>
-            </ul>
 
-            <ul class="nav-icons">
-                <li>
-                    <a href="#" id="basket-icon" class="nav-link">
-                        <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764076078/cart_adnbat.png"
-                            alt="Basket" class="nav-icon">
+            <!-- ROW 1: Logo — Search — Icons -->
+            <div class="nav-row-1">
+
+                <!-- LEFT: LOGO -->
+                <div class="nav-logo">
+                    <a href="{% url 'home' %}">
+                        <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1773766287/Aston_Tech_Hub_logo_updated_v2_swadcg.png"
+                            alt="AstonTechHub Logo">
                     </a>
-                </li>
+                </div>
 
-                <li>
-                    <a href="#" id="profile-icon" class="nav-link">
-                        <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764076103/user_g8rtxx.png"
-                            alt="Profile" class="nav-icon">
-                    </a>
-                </li>
-
-                {% if user.is_authenticated %}
-                <li class="nav-link user-info">Logged in as <strong>{{ user.username }}</strong></li>
-                <li>
-                    <form method="post" action="{% url 'logout' %}" class="logout-form">
-                        {% csrf_token %}
-                        <button type="submit" class="nav-link logout-link">Logout</button>
+                <!-- CENTER: SEARCH BAR -->
+                <div class="nav-search">
+                    <form id="navbarSearchForm">
+                        <input type="text" id="navbarSearch" placeholder="Search products..." />
+                        <button type="submit" class="btn-orange">Search</button>
                     </form>
-                </li>
-                {% if user.is_superuser %}
-                <li><a href="/admin/" class="nav-link">Admin</a></li>
-                {% endif %}
-                {% else %}
-                <li><a href="#" id="login-link" class="nav-link login">Login</a></li>
-                {% endif %}
-            </ul>
+                </div>
+
+                <!-- RIGHT: ICONS -->
+                <ul class="nav-icons">
+                    <li>{% include 'currency_switcher.html' %}</li>
+
+                    <li>
+                        <a href="#" id="basket-icon" class="icon-link">
+                            <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764076078/cart_adnbat.png"
+                                alt="Basket" class="nav-icon">
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" id="profile-icon" class="icon-link">
+                            <img src="https://res.cloudinary.com/ddh1zbtva/image/upload/v1764076103/user_g8rtxx.png"
+                                alt="Profile" class="nav-icon">
+                        </a>
+                    </li>
+
+                    {% if user.is_authenticated %}
+                    <li class="username-display">{{ user.username }}</li>
+                    <li>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" id="logout-link" class="btn-orange">Logout</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li><a href="#" id="login-link" class="btn-orange">Login</a></li>
+                    {% endif %}
+                </ul>
+
+            </div>
+
+            <!-- ROW 2: Navigation Links -->
+            <div class="nav-row-2">
+                <ul class="nav-list">
+                    <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
+                    <li><a href="{% url 'contact' %}" class="nav-link">Contact Us</a></li>
+                    <li><a href="{% url 'products' %}" class="nav-link">Products</a></li>
+                    <li><a href="{% url 'signup' %}" class="nav-link">Sign Up</a></li>
+
+                    {% if user.is_superuser %}
+                    <li><a href="/admin/" id="admin-link" class="nav-link admin-link">Admin</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
         </nav>
     </header>
 
@@ -134,7 +160,7 @@
 
     <!-- ========================= LOGIN NOTIFICATION ========================= -->
     <div id="login-notification" class="login-notification">
-        You aren’t currently logged in.
+        You aren't currently logged in.
     </div>
 
     <!-- ========================= CHAT ASSISTANT WIDGET ========================= -->
@@ -198,6 +224,8 @@
                 return cookieValue;
             }
 
+
+
             function renderBasket(data) {
                 if (data.items.length > 0) {
                     let html = "<ul>";
@@ -206,13 +234,13 @@
                             <li class="basket-item">
                                 <img src="${item.image_url}" alt="${item.name}" class="basket-item-img">
                                 <span class="basket-item-name">${item.name}</span>
-                                <span class="basket-item-price">£${item.price}</span>
+                                <span class="basket-item-price" data-base-price="${item.price}">${convertPrice(item.price)}</span>  <!-- ← UPDATED -->
                                 <span class="basket-item-qty">x${item.quantity}</span>
                                 <button class="remove-btn" data-product-id="${item.id}">Remove</button>
                             </li>`;
                     });
                     html += `</ul>
-                        <div class="basket-total">Total: £${data.total}</div>
+                        <div class="basket-total" data-base-price="${data.total}">Total: ${convertPrice(data.total)}</div>  <!-- ← UPDATED -->
                         <div class="basket-footer">
                             <button id="checkout-btn" class="checkout-btn">Checkout</button>
                         </div>`;
@@ -380,52 +408,47 @@
                 });
             });
         });
+
+        // Global search bar functionality  
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('navbarSearchForm');
+            const input = document.getElementById('navbarSearch');
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const query = input.value.trim();
+
+                if (!query) return;
+
+                if (window.location.pathname.includes("/products")) {
+                    const productSearch = document.getElementById('searchInput');
+                    if (productSearch) {
+                        productSearch.value = query;
+                        productSearch.dispatchEvent(new Event('input'));
+                        return;
+                    }
+                }
+
+                window.location.href = `/products/?q=${encodeURIComponent(query)}`;
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const q = urlParams.get("q");
+
+            if (q) {
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.value = q;
+                    searchInput.dispatchEvent(new Event('input'));
+                }
+            }
+        });
+
+
     </script>
-
-    <!-- ========================= FOOTER ========================= -->
-<footer class="site-footer">
-    <div class="footer-container">
-
-        <div class="footer-section">
-            <h3>AstonTechHub</h3>
-            <p>Your trusted online store for quality products and great service.</p>
-        </div>
-
-        <div class="footer-section">
-            <h4>Quick Links</h4>
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'products' %}">Products</a></li>
-                <li><a href="{% url 'about' %}">About Us</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h4>Support</h4>
-            <ul>
-                <li><a href="#">Shipping Info</a></li>
-                <li><a href="#">Returns</a></li>
-                <li><a href="#">FAQ</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h4>Follow Us</h4>
-            <div class="social-icons">
-                <a href="#">Facebook</a>
-                <a href="#">Instagram</a>
-                <a href="#">Twitter</a>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="footer-bottom">
-        <p>© 2026 AstonTechHub. All rights reserved.</p>
-    </div>
-</footer>
-
 
 </body>
 
