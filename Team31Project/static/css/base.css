@@ -7,69 +7,123 @@ body {
   color: #fff;                                    
 }
 
-/* === NAVBAR === */
+/* === NAVBAR WRAPPER === */
 .navbar {
-  background-color: #180028;                    
-  padding: 0.75rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    background-color: #180028;
+    padding: 0.75rem 2rem 0.4rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
 }
 
-.nav-list,
+/* === ROW 1: Logo — Search — Icons === */
+.nav-row-1 {
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* === LOGO === */
+.nav-logo img {
+    height: 48px;
+    width: auto;
+    display: block;
+    filter: none;
+    
+}
+
+/* === SEARCH BAR === */
+.nav-search form {
+    display: flex;
+    width: 100%;
+}
+
+.nav-search input {
+    flex: 1;
+    padding: 0.55rem 0.8rem;
+    border-radius: 6px 0 0 6px;
+    border: none;
+    outline: none;
+}
+
+.btn-orange {
+    background: #ff6600;
+    padding: 0.55rem 1rem;
+    border-radius: 6px;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-orange:hover {
+    background: #e05500;
+}
+
+/* === ICONS === */
 .nav-icons {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-link {
-  color: #fff;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-  transition: color 0.3s ease;
-}
-
-.nav-link:hover {
-  color: #ff9600;                                
+    list-style: none;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-icon {
-  width: 26px;
-  height: 26px;
-  vertical-align: middle;
-  filter: invert(100%);
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    filter: invert(100%) brightness(200%);
 }
 
-.user-info {
-  color: #ccc;
-  font-style: italic;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.icon-link {
+    display: flex;
+    align-items: center;
 }
 
-.user-info strong {
-  color: #fff;
+/* === USERNAME (RIGHT SIDE) === */
+.username-display {
+    color: #ffffff;
+    font-weight: 600;
+    margin-left: 0.5rem;
 }
 
-.logout-link {
-  background: #ff6600;                            
-  padding: 0.3rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: background 0.3s ease;
-  color: #fff;
+/* === ROW 2: Navigation Links === */
+.nav-row-2 {
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding: 0.25rem 0 0.15rem;
 }
 
-.logout-link:hover {
-  background: #e05500;
+.nav-list {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: #ff9600;
+}
+
+/* === ADMIN LINK (ORANGE) === */
+.admin-link {
+    color: #ff9600 !important;
+    font-weight: 600;
+}
+
+.admin-link:hover {
+    color: #ffa733 !important;
 }
 
 /* === MAIN CONTENT === */
