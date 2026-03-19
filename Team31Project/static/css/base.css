@@ -1,65 +1,84 @@
 /* === GLOBAL === */
 body {
-  font-family: "Poppins", sans-serif;             
-  background: linear-gradient(180deg, #41006b, #9a57b4); 
-  margin: 0;
-  padding: 0;
-  color: #fff;                                    
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(180deg, #41006b, #9a57b4);
+    margin: 0;
+    padding: 0;
+    color: #fff;
 }
 
-/* === NAVBAR WRAPPER === */
+/* === NAVBAR (2‑row grid) === */
 .navbar {
     background-color: #180028;
     padding: 0.75rem 2rem 0.4rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
+
+    display: grid;
+    grid-template-rows: auto auto; 
+    align-items: center;          
+    gap: 0.2rem;                   
 }
 
 /* === ROW 1: Logo — Search — Icons === */
 .nav-row-1 {
     display: grid;
     grid-template-columns: 180px 1fr auto;
-    align-items: center;
+    align-items: center; 
     gap: 1.5rem;
 }
 
 /* === LOGO === */
+.nav-logo {
+    position: relative;
+}
+
 .nav-logo img {
-    height: 48px;
+    height: 60px;
     width: auto;
     display: block;
-    filter: none;
-    
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.25));
 }
 
 /* === SEARCH BAR === */
 .nav-search form {
     display: flex;
     width: 100%;
+    align-items: center;
+    gap: 6px;
 }
 
 .nav-search input {
     flex: 1;
-    padding: 0.55rem 0.8rem;
-    border-radius: 6px 0 0 6px;
-    border: none;
+    padding: 0.65rem 1rem;
+    border-radius: 12px;
+    border: 1.5px solid #3a2a4d;
+    background: #ffffff;
+    color: #1a1a1a;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.nav-search input:focus {
+    border-color: #ff6600;
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.35);
     outline: none;
 }
 
 .btn-orange {
     background: #ff6600;
-    padding: 0.55rem 1rem;
-    border-radius: 6px;
+    padding: 0.65rem 1.1rem;
+    border-radius: 8px;
     border: none;
     color: #fff;
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
 }
 
 .btn-orange:hover {
     background: #e05500;
+    box-shadow: 0 0 10px rgba(255, 102, 0, 0.4);
 }
 
 /* === ICONS === */
@@ -92,11 +111,6 @@ body {
 }
 
 /* === ROW 2: Navigation Links === */
-.nav-row-2 {
-    border-top: 1px solid rgba(255,255,255,0.15);
-    padding: 0.25rem 0 0.15rem;
-}
-
 .nav-list {
     list-style: none;
     display: flex;
