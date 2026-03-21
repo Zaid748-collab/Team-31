@@ -289,9 +289,8 @@ function displayProduct(product, cardID) {
     card.innerHTML = `
         <img src="${product.image_url || ''}" alt="${product.name}" class="compare-image">
         <h3 class="compare-product-title">${product.name}</h3>
-        <p class="price"><strong>Price:</strong> £${product.price}</p>
-        ${specsHTML}
-    `;
+        
+        ${specsHTML}<p class="price" data-base-price="${product.price}"><strong>Price:</strong> ${convertPrice(product.price)}</p>
 }
 
 function highlightBetter(p1, p2) {
