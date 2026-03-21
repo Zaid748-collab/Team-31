@@ -338,7 +338,12 @@
                     renderBasket(data);
                 }
                 if (e.target.id === "checkout-btn") {
-                    window.location.href = "/checkout/";
+                    if (!isAuthenticated) {
+                        alert("You must be logged in to place an order. Please create an account.");
+                        window.location.href = "{% url 'signup' %}";
+                        return;
+                    }
+                    window.location.href = "{% url 'checkout' %}";
                 }
             });
         });
@@ -455,50 +460,50 @@
     <script src="{% static 'js/currency.js' %}"></script>
 
     <!-- ========================= FOOTER ========================= -->
-<footer class="site-footer">
-    <div class="footer-container">
+    <footer class="site-footer">
+        <div class="footer-container">
 
-        <div class="footer-section">
-            <h3>AstonTechHub</h3>
-            <p>Your trusted online store for quality products and great service.</p>
-        </div>
-
-        <div class="footer-section">
-            <h4>Quick Links</h4>
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'products' %}">Products</a></li>
-                <li><a href="{% url 'about' %}">About Us</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h4>Support</h4>
-            <ul>
-                <li><a href="#">Shipping Info</a></li>
-                <li><a href="#">Returns</a></li>
-                <li><a href="#">FAQ</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h4>Follow Us</h4>
-            <div class="social-icons">
-                <a href="#">Facebook</a>
-                <a href="#">Instagram</a>
-                <a href="#">Twitter</a>
+            <div class="footer-section">
+                <h3>AstonTechHub</h3>
+                <p>Your trusted online store for quality products and great service.</p>
             </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'products' %}">Products</a></li>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                </div>
+            </div>
+
         </div>
 
-    </div>
+        <div class="footer-bottom">
+            <p>© AstonTechHub. All rights reserved.</p>
+        </div>
+    </footer>
 
-    <div class="footer-bottom">
-        <p>© AstonTechHub. All rights reserved.</p>
-    </div>
-</footer>
 
-    
 
 
 </body>
