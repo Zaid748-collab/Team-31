@@ -12,6 +12,7 @@ def home(request):
     )
 
     featured_products = Product.objects.filter(active=True).order_by('-price')[:6]
+    # ---- Recently viewed logic ----
     recent_ids = request.session.get("recently_viewed", [])
 
     preserved_order = Case(*[
@@ -22,6 +23,7 @@ def home(request):
         Product.objects.filter(id__in=recent_ids, active=True)
         .order_by(preserved_order)
     )
+    #------------------------------
     return render(request, "Home_Page/Home_Page.html", {
         "categories": categories,
         "featured_products": featured_products,

@@ -41,7 +41,11 @@ def product_detail(request, pk):
 
     if product.id in recent:
         recent.remove(product.id)
-
+    recent.insert(0, product.id)
+    recent = recent[:2]  # keep only last 2
+    request.session["recently_viewed"] = recent
+    
+    # ------------------------------
     reviews = Review.objects.filter(product=product).select_related("user")
     stats = reviews.aggregate(avg=Avg("rating"), count=Count("id"))
 
