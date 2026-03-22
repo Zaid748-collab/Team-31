@@ -1,166 +1,151 @@
-/* ─── Currency Switcher ──────────────────────────────────────────────────── */
+/* ============================================
+   CURRENCY SWITCHER - FULLY WORKING
+   ============================================ */
 
-#currency-switcher {
-  position: relative;
-  display: inline-block;
-  font-family: inherit;
+.currency-switcher {
+    position: relative;
+    display: inline-block;
 }
 
 #currency-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-  white-space: nowrap;
-  user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 #currency-btn:hover {
-  border-color: #aaa;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-#currency-btn:focus-visible {
-  outline: 2px solid #4f46e5;
-  outline-offset: 2px;
+    background: #ff6600;
+    border-color: #ff6600;
+    color: #ffffff;
 }
 
 .currency-chevron {
-  font-size: 0.75rem;
-  color: #888;
-  transition: transform 0.2s;
+    font-size: 0.7rem;
+    transition: transform 0.2s;
 }
-
-#currency-dropdown.open + #currency-btn .currency-chevron,
-#currency-btn[aria-expanded="true"] .currency-chevron {
-  transform: rotate(180deg);
-}
-
-/* ─── Dropdown Panel ─────────────────────────────────────────────────────── */
 
 #currency-dropdown {
-  position: absolute;
-  top: calc(100% + 6px);
-  right: 0;
-  min-width: 220px;
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-  overflow: hidden;
-  z-index: 1000;
-
-  /* Hidden by default */
-  opacity: 0;
-  transform: translateY(-6px) scale(0.98);
-  pointer-events: none;
-  transition: opacity 0.18s ease, transform 0.18s ease;
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    min-width: 200px;
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    display: none;
+    overflow: hidden;
 }
 
 #currency-dropdown.open {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: all;
+    display: block;
 }
 
 #currency-list {
-  list-style: none;
-  margin: 0;
-  padding: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 5px;
 }
 
-/* ─── Individual Options ─────────────────────────────────────────────────── */
-
 .currency-option {
-  display: grid;
-  grid-template-columns: 28px 44px 1fr 24px;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
 }
 
 .currency-option:hover {
-  background: #f5f5f5;
+    background: #f0f0f0;
 }
 
 .currency-option.active {
-  background: #eef2ff;
+    background: #fff0e6;
 }
 
 .currency-option.active .currency-code {
-  color: #4f46e5;
+    color: #ff6600;
+    font-weight: bold;
 }
 
 .currency-flag {
-  font-size: 1.15rem;
-  line-height: 1;
+    font-size: 1.2rem;
 }
 
 .currency-code {
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: #1a1a1a;
-  letter-spacing: 0.03em;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #333333;
+    min-width: 45px;
 }
 
 .currency-name {
-  font-size: 0.82rem;
-  color: #666;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: 0.8rem;
+    color: #666666;
+    flex: 1;
 }
 
 .currency-symbol {
-  font-size: 0.9rem;
-  color: #999;
-  text-align: right;
-  font-weight: 600;
+    font-size: 0.9rem;
+    color: #ff6600;
+    font-weight: 600;
 }
 
-/* ─── Dark mode support ──────────────────────────────────────────────────── */
+/* ============================================
+   DARK MODE SUPPORT
+   ============================================ */
 
-@media (prefers-color-scheme: dark) {
-  #currency-btn {
-    background: #1e1e1e;
-    border-color: #333;
-    color: #f0f0f0;
-  }
+[data-theme="dark"] #currency-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #3a2a4a;
+    color: #ffffff;
+}
 
-  #currency-btn:hover {
-    border-color: #555;
-  }
+[data-theme="dark"] #currency-btn:hover {
+    background: #ffaa33;
+    border-color: #ffaa33;
+    color: #000000;
+}
 
-  #currency-dropdown {
-    background: #1e1e1e;
-    border-color: #333;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-  }
+[data-theme="dark"] #currency-dropdown {
+    background: #1e1a2a;
+    border-color: #3a2a4a;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
 
-  .currency-option:hover {
-    background: #2a2a2a;
-  }
+[data-theme="dark"] .currency-option:hover {
+    background: #2a1f3a;
+}
 
-  .currency-option.active {
-    background: #1e1b4b;
-  }
+[data-theme="dark"] .currency-option.active {
+    background: #ffaa33;
+}
 
-  .currency-code {
-    color: #f0f0f0;
-  }
+[data-theme="dark"] .currency-option.active .currency-code {
+    color: #000000;
+}
 
-  .currency-name {
-    color: #999;
-  }
+[data-theme="dark"] .currency-code {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .currency-name {
+    color: #cccccc;
+}
+
+[data-theme="dark"] .currency-symbol {
+    color: #ffaa33;
 }

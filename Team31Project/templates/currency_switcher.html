@@ -7,22 +7,31 @@
   and {% static 'js/currency.js' %} (see instructions below).
 {% endcomment %}
 
-<div id="currency-switcher" aria-label="Currency selector">
-  <button
-    id="currency-btn"
-    type="button"
-    onclick="toggleDropdown()"
-    aria-haspopup="listbox"
-    aria-expanded="false"
-    aria-controls="currency-dropdown"
-  >
-    <!-- Populated by currency.js on DOMContentLoaded -->
-    <span class="currency-chevron">▾</span>
-  </button>
-
-  <div id="currency-dropdown" role="listbox" aria-label="Select currency">
-    <ul id="currency-list">
-      <!-- Options injected by currency.js -->
-    </ul>
-  </div>
+<div id="currency-switcher" class="currency-switcher">
+    <button id="currency-btn" type="button">
+    <span id="current-currency">GBP</span>
+    <span class="currency-chevron">▼</span>
+</button>
+    <div id="currency-dropdown">
+        <ul id="currency-list">
+            <li class="currency-option" data-currency="GBP" data-symbol="£" data-rate="1">
+                <span class="currency-flag">🇬🇧</span>
+                <span class="currency-code">GBP</span>
+                <span class="currency-name">British Pound</span>
+                <span class="currency-symbol">£</span>
+            </li>
+            <li class="currency-option" data-currency="USD" data-symbol="$" data-rate="1.27">
+                <span class="currency-flag">🇺🇸</span>
+                <span class="currency-code">USD</span>
+                <span class="currency-name">US Dollar</span>
+                <span class="currency-symbol">$</span>
+            </li>
+            <li class="currency-option" data-currency="EUR" data-symbol="€" data-rate="1.18">
+                <span class="currency-flag">🇪🇺</span>
+                <span class="currency-code">EUR</span>
+                <span class="currency-name">Euro</span>
+                <span class="currency-symbol">€</span>
+            </li>
+        </ul>
+    </div>
 </div>

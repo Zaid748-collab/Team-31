@@ -925,3 +925,337 @@ body {
         justify-content: center;
     }
 }
+/* === FIXED NAVBAR STYLES - ADD AT END OF FILE === */
+.navbar {
+    background-color: var(--navbar-bg);
+    padding: 0.75rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    padding: 0.5rem 0;
+}
+
+.nav-link:hover {
+    color: var(--accent-secondary);
+}
+
+.nav-icon-link {
+    display: flex;
+    align-items: center;
+}
+
+.nav-icon {
+    width: 26px;
+    height: 26px;
+    filter: invert(100%);
+}
+
+.currency-selector select {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.currency-selector select:hover {
+    background: var(--accent-secondary);
+    color: black;
+}
+
+.user-info {
+    color: #ccc;
+    font-style: italic;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.logout-link {
+    background: var(--accent-primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.3s ease;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-link:hover {
+    background: var(--accent-hover);
+}
+
+.theme-toggle {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--text-primary);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+    color: #000;
+}
+
+.login-link, .admin-link {
+    padding: 0.5rem 0.8rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .nav-links, .nav-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+/* Remove duplicate footer - keep only ONE footer */
+/* If you see two footers, delete the second one from base.html */
+/* ========== FIXED NAVBAR STYLES - ADD THIS TO END OF base.css ========== */
+.navbar {
+    background-color: var(--navbar-bg);
+    padding: 0.75rem 2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.nav-row-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.nav-search {
+    flex: 1;
+    max-width: 400px;
+}
+
+.nav-search form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-search input {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.nav-search button {
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.nav-row-2 {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 0.75rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nav-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    padding: 0.25rem 0;
+}
+
+.nav-link:hover {
+    color: var(--accent-secondary);
+}
+
+.nav-icon-link {
+    display: flex;
+    align-items: center;
+}
+
+.nav-icon {
+    width: 26px;
+    height: 26px;
+    filter: invert(100%);
+}
+
+.theme-toggle {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--text-primary);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--accent-secondary);
+    color: #000;
+}
+
+.user-info {
+    color: #ccc;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.logout-btn, .login-btn-link {
+    background: var(--accent-primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.3s ease;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.logout-btn:hover, .login-btn-link:hover {
+    background: var(--accent-hover);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .nav-row-1 {
+        flex-direction: column;
+    }
+    
+    .nav-search {
+        width: 100%;
+        max-width: none;
+    }
+    
+    .nav-right {
+        justify-content: center;
+    }
+    
+    .nav-links {
+        justify-content: center;
+    }
+}
+/* ========== CURRENCY SWITCHER STYLES ========== */
+.currency-switcher {
+    display: inline-block;
+}
+
+.currency-select {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.currency-select:hover {
+    background: var(--accent-secondary);
+    color: #000;
+    border-color: var(--accent-secondary);
+}
+
+/* Dark mode currency styles */
+[data-theme="dark"] .currency-select {
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    border-color: #3a2a4a;
+}
+
+[data-theme="dark"] .currency-select:hover {
+    background: var(--accent-secondary);
+    color: #000;
+}
+/* ========== CURRENCY SWITCHER - FIXED VISIBILITY ========== */
+.currency-switcher {
+    display: inline-block;
+}
+
+.currency-select {
+    background: rgba(0, 0, 0, 0.08);
+    color: #333333;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.currency-select:hover {
+    background: var(--accent-secondary);
+    color: #ffffff;
+    border-color: var(--accent-secondary);
+}
+
+/* Dark mode styles */
+[data-theme="dark"] .currency-select {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] .currency-select:hover {
+    background: var(--accent-secondary);
+    color: #000000;
+    border-color: var(--accent-secondary);
+}
