@@ -7,7 +7,11 @@
     <title>{% block title %}My Site{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- THEME: must load before CSS to prevent flash -->
+    <script src="{% static 'js/theme.js' %}"></script>
+
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">  <!-- ← ADDED -->
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
@@ -38,6 +42,10 @@
 
                 <!-- RIGHT: ICONS -->
                 <ul class="nav-icons">
+                    <li>
+                        <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+                    </li>  <!-- ← ADDED -->
+
                     <li>{% include 'currency_switcher.html' %}</li>
                     <link rel="stylesheet" href="{% static 'css/currency.css' %}">
 
@@ -226,8 +234,6 @@
                 return cookieValue;
             }
 
-
-
             function renderBasket(data) {
                 if (data.items.length > 0) {
                     let html = "<ul>";
@@ -236,13 +242,13 @@
                             <li class="basket-item">
                                 <img src="${item.image_url}" alt="${item.name}" class="basket-item-img">
                                 <span class="basket-item-name">${item.name}</span>
-                                <span class="basket-item-price" data-base-price="${item.price}">${convertPrice(item.price)}</span>  <!-- ← UPDATED -->
+                                <span class="basket-item-price" data-base-price="${item.price}">${convertPrice(item.price)}</span>
                                 <span class="basket-item-qty">x${item.quantity}</span>
                                 <button class="remove-btn" data-product-id="${item.id}">Remove</button>
                             </li>`;
                     });
                     html += `</ul>
-                        <div class="basket-total" data-base-price="${data.total}">Total: ${convertPrice(data.total)}</div>  <!-- ← UPDATED -->
+                        <div class="basket-total" data-base-price="${data.total}">Total: ${convertPrice(data.total)}</div>
                         <div class="basket-footer">
                             <button id="checkout-btn" class="checkout-btn">Checkout</button>
                         </div>`;
@@ -349,7 +355,6 @@
         });
 
         // Chat assistant logic
-
         const QUESTIONS = {
             shipping: [
                 "What are your delivery times?",
@@ -368,13 +373,11 @@
             ]
         };
 
-        // Open/close chat
         document.getElementById("chat-button").onclick = () => {
             const win = document.getElementById("chat-window");
             win.style.display = win.style.display === "flex" ? "none" : "flex";
         };
 
-        // Load questions when category clicked
         document.querySelectorAll(".chat-category").forEach(btn => {
             btn.addEventListener("click", () => {
                 const category = btn.dataset.category;
@@ -391,7 +394,6 @@
             `;
                 });
 
-                // Attach click listeners to new buttons
                 document.querySelectorAll(".chat-question").forEach(qbtn => {
                     qbtn.addEventListener("click", () => {
                         const question = qbtn.dataset.question;
@@ -453,8 +455,6 @@
                 }
             }
         });
-
-
     </script>
 
     <script src="{% static 'js/currency.js' %}"></script>
@@ -503,9 +503,5 @@
         </div>
     </footer>
 
-
-
-
 </body>
-
 </html>
