@@ -118,15 +118,6 @@ body {
   font-size: 0.9rem;
 }
 
-/* =========================== */
-/* Footer placeholder          */
-/* =========================== */
-.about-footer-space {
-  height: 80px;
-  background: #eee;
-  margin-top: 50px;
-  border-radius: 8px;
-}
 
 /* =========================== */
 /* Responsive adjustments      */

@@ -9,133 +9,364 @@
 
 {% block content %}
 <div class="product-page container">
-  <h2 class="page-title">Available Products</h2>
+    <h2 class="page-title">Available Products</h2>
 
-  <div class="filter-container">
-    <input type="text" id="searchInput" placeholder="Search products...">
-    <select id="categoryFilter">
-      <option value="all">All Categories</option>
-      <option value="GPU">GPU</option>
-      <option value="Motherboard">Motherboard</option>
-      <option value="CPU">CPU</option>
-      <option value="Storage">Storage</option>
-      <option value="RAM">RAM</option>
-    </select>
-  </div>
+    <div class="filter-container">
+        <input type="text" id="searchInput" placeholder="Search products...">
+        <select id="categoryFilter">
+            <option value="all">All Categories</option>
+            <option value="GPU">GPU</option>
+            <option value="Motherboard">Motherboard</option>
+            <option value="CPU">CPU</option>
+            <option value="Storage">Storage</option>
+            <option value="RAM">RAM</option>
+        </select>
+    </div>
 
-  <div class="product-grid" id="productGrid">
-    {% for product in products %}
-      <div class="product-card" data-name="{{ product.name|lower }}" data-category="{{ product.type }}">
-        <!-- Link to product detail page -->
-        <a href="{% url 'product_detail' product.id %}" class="product-link">
-          <div class="product-image">
-            {% if product.image_url %}
-              <img src="{{ product.image_url }}" alt="{{ product.name }}">
-            {% else %}
-              <div class="placeholder-image">No Image</div>
-            {% endif %}
-          </div>
 
-          <h3 class="product-name">{{ product.name }}</h3>
-        </a>
 
-        <div class="product-info">
-          <p class="product-meta">
-            Stock: {{ product.quantity_in_stock }}<br>
-            Category: {{ product.type }}
-          </p>
+    <div class="product-grid" id="productGrid">
+        {% for product in products %}
+        <div class="product-card" data-name="{{ product.name|lower }}" data-category="{{ product.type }}">
+            <!-- Link to product detail page -->
+            <a href="{% url 'product_detail' product.id %}" class="product-link">
+                <div class="product-image">
+                    {% if product.image_url %}
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                    {% else %}
+                    <div class="placeholder-image">No Image</div>
+                    {% endif %}
+                </div>
+
+                <h3 class="product-name">{{ product.name }}</h3>
+            </a>
+
+            <div class="product-info">
+                <p class="product-meta">
+                    Stock: {{ product.quantity_in_stock }}<br>
+
+                    {% if product.quantity_in_stock > 3 %}
+                    <span class="stock-status in-stock">
+                        <span class="stock-dot green"></span>
+                        In Stock
+                    </span>
+                    {% elif product.quantity_in_stock > 0 %}
+                    <span class="stock-status low-stock">
+                        <span class="stock-dot orange"></span>
+                        Low Stock
+                    </span>
+                    {% else %}
+                    <span class="stock-status out-of-stock">
+                        <span class="stock-dot red"></span>
+                        Out of Stock
+                    </span>
+                    {% endif %}
+                    <br>
+
+                    Category: {{ product.type }}
+                </p>
+            </div>
+
+            <form method="POST" action="{% url 'add_to_basket' product.id %}" class="product-action">
+                {% csrf_token %}
+                <button type="button" class="add-basket-btn add-to-basket" data-product-id="{{ product.id }}">
+                    Add to basket
+                </button>
+            </form>
         </div>
+        {% empty %}
+        <p class="no-products">No products available.</p>
+        {% endfor %}
+    </div>
 
-        <form method="POST" action="{% url 'add_to_basket' product.id %}" class="product-action">
-          {% csrf_token %}
-          <button type="button" class="add-basket-btn add-to-basket" data-product-id="{{ product.id }}">
-            Add to basket
-          </button>
-        </form>
-      </div>
-    {% empty %}
-      <p class="no-products">No products available.</p>
-    {% endfor %}
-  </div>
-
-  <p id="noResultsMessage" style="display:none; text-align:center; margin-top:20px;">
-    No matching products found.
-  </p>
+    <p id="noResultsMessage" style="display:none; text-align:center; margin-top:20px;">
+        No matching products found.
+    </p>
 </div>
 
+
+<div class="compare-section">
+
+    <h2 class="compare-title">Compare Hardware</h2>
+
+    <div class="compare-controls">
+
+        <select id="compareCategory">
+            <option value="">Category</option>
+            <option value="GPU">GPU</option>
+            <option value="Motherboard">Motherboard</option>
+            <option value="CPU">CPU</option>
+            <option value="Storage">Storage</option>
+            <option value="RAM">RAM</option>
+        </select>
+
+        <button id="compareBtn">Compare</button>
+
+    </div>
+
+    <div class="compare-products">
+
+        <div class="compare-column">
+
+            <select id="product1">
+                <option value="">Product 1</option>
+            </select>
+
+            <div class="compare-card" id="compareCard1">
+                <p class="compare-placeholder">Compare here</p>
+            </div>
+
+        </div>
+
+        <div class="compare-column">
+
+            <select id="product2">
+                <option value="">Product 2</option>
+            </select>
+
+            <div class="compare-card" id="compareCard2">
+                <p class="compare-placeholder">Compare here</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    const categoryFilter = document.getElementById('categoryFilter');
-    const cards = document.querySelectorAll('.product-card');
-    const noResultsMessage = document.getElementById('noResultsMessage');
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const cards = document.querySelectorAll('.product-card');
+        const noResultsMessage = document.getElementById('noResultsMessage');
 
-    function filterProducts() {
-      const query = searchInput.value.toLowerCase();
-      const selectedCategory = categoryFilter.value;
-      let visibleCount = 0;
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            let visibleCount = 0;
 
-      cards.forEach(card => {
-        const name = card.getAttribute('data-name');
-        const category = card.getAttribute('data-category');
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const category = card.getAttribute('data-category');
 
-        const matchesSearch = name.includes(query);
-        const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
+                const matchesSearch = name.includes(query);
+                const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
 
-        if (matchesSearch && matchesCategory) {
-          card.style.display = 'flex';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
         }
-      });
 
-      noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
+        searchInput.addEventListener('input', filterProducts);
+        categoryFilter.addEventListener('change', filterProducts);
+    });
+</script>
+
+<script>
+    document.querySelectorAll('.product-image').forEach(container => {
+        const img = container.querySelector('img');
+        const largeSrc = img.dataset.large || img.src;
+
+        const lens = document.createElement('div');
+        lens.classList.add('magnifier-lens');
+        container.appendChild(lens);
+
+        const zoom = 3;
+
+        lens.style.backgroundImage = `url('${largeSrc}')`;
+        lens.style.backgroundRepeat = "no-repeat";
+        lens.style.backgroundSize = `${img.width * zoom}px ${img.height * zoom}px`;
+
+        container.addEventListener('mousemove', function (e) {
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            lens.style.display = "block";
+
+            const lensX = x - lens.offsetWidth / 2;
+            const lensY = y - lens.offsetHeight / 2;
+
+            lens.style.left = `${lensX}px`;
+            lens.style.top = `${lensY}px`;
+
+            const bgX = -((x * zoom) - lens.offsetWidth / 2);
+            const bgY = -((y * zoom) - lens.offsetHeight / 2);
+
+            lens.style.backgroundPosition = `${bgX}px ${bgY}px`;
+        });
+
+        container.addEventListener('mouseleave', () => {
+            lens.style.display = "none";
+        });
+    });
+</script>
+
+{{ product_data|json_script:"products-data" }}
+
+<script>
+    const compareProducts = JSON.parse(
+        document.getElementById("products-data").textContent
+    );
+
+    const categorySelect = document.getElementById("compareCategory");
+    const product1Select = document.getElementById("product1");
+    const product2Select = document.getElementById("product2");
+    const compareBtn = document.getElementById("compareBtn");
+
+    categorySelect.addEventListener("change", function () {
+        const selectedCategory = this.value;
+
+        product1Select.innerHTML = '<option value="">Product 1</option>';
+        product2Select.innerHTML = '<option value="">Product 2</option>';
+
+        const filteredProducts = compareProducts.filter(product =>
+            product.type === selectedCategory
+        );
+
+        filteredProducts.forEach(product => {
+            const option1 = document.createElement("option");
+            option1.value = product.id;
+            option1.textContent = product.name;
+
+            const option2 = document.createElement("option");
+            option2.value = product.id;
+            option2.textContent = product.name;
+
+            product1Select.appendChild(option1);
+            product2Select.appendChild(option2);
+        });
+
+        resetCompareCards();
+    });
+
+    compareBtn.addEventListener("click", function () {
+        const p1 = compareProducts.find(p => String(p.id) === product1Select.value);
+        const p2 = compareProducts.find(p => String(p.id) === product2Select.value);
+
+        displayProduct(p1, "compareCard1");
+        displayProduct(p2, "compareCard2");
+
+        highlightBetter(p1, p2);
+    });
+
+    function resetCompareCards() {
+        document.getElementById("compareCard1").innerHTML =
+            '<p class="compare-placeholder">Compare here</p>';
+        document.getElementById("compareCard2").innerHTML =
+            '<p class="compare-placeholder">Compare here</p>';
     }
 
-    searchInput.addEventListener('input', filterProducts);
-    categoryFilter.addEventListener('change', filterProducts);
-  });
+    function displayProduct(product, cardID) {
+        const card = document.getElementById(cardID);
+
+        if (!product) {
+            card.innerHTML = '<p class="compare-placeholder">Compare here</p>';
+            return;
+        }
+
+        let specsHTML = "";
+
+        if (product.specs) {
+            for (const key in product.specs) {
+                specsHTML += `
+                <p class="spec-row" data-spec="${key}">
+                    <strong>${key}:</strong> <span>${product.specs[key]}</span>
+                </p>
+            `;
+            }
+        }
+
+        card.innerHTML = `
+    <img src="${product.image_url || ''}" alt="${product.name}" class="compare-image">
+    <h3 class="compare-product-title">${product.name}</h3>
+
+    ${specsHTML}
+    <p class="price" data-base-price="${product.price}">
+        <strong>Price:</strong> ${convertPrice(product.price)}
+    </p>
+`;
+    }
+
+    function highlightBetter(p1, p2) {
+        if (!p1 || !p2) return;
+
+        resetHighlights();
+
+        const price1 = parseFloat(p1.price);
+        const price2 = parseFloat(p2.price);
+
+        const priceEl1 = document.querySelector("#compareCard1 .price");
+        const priceEl2 = document.querySelector("#compareCard2 .price");
+
+        if (priceEl1 && priceEl2) {
+            if (price1 < price2) {
+                priceEl1.classList.add("better-spec");
+                priceEl2.classList.add("worse-spec");
+            } else if (price2 < price1) {
+                priceEl2.classList.add("better-spec");
+                priceEl1.classList.add("worse-spec");
+            }
+        }
+
+        if (p1.specs && p2.specs) {
+            for (const key in p1.specs) {
+                if (!(key in p2.specs)) continue;
+
+                const val1 = extractNumber(p1.specs[key]);
+                const val2 = extractNumber(p2.specs[key]);
+
+                if (val1 === null || val2 === null) continue;
+
+                const row1 = document.querySelector(`#compareCard1 .spec-row[data-spec="${CSS.escape(key)}"]`);
+                const row2 = document.querySelector(`#compareCard2 .spec-row[data-spec="${CSS.escape(key)}"]`);
+
+                if (!row1 || !row2) continue;
+
+                const lowerIsBetter = key.toLowerCase().includes("latency");
+
+                if (val1 === val2) continue;
+
+                if (lowerIsBetter) {
+                    if (val1 < val2) {
+                        row1.classList.add("better-spec");
+                        row2.classList.add("worse-spec");
+                    } else {
+                        row2.classList.add("better-spec");
+                        row1.classList.add("worse-spec");
+                    }
+                } else {
+                    if (val1 > val2) {
+                        row1.classList.add("better-spec");
+                        row2.classList.add("worse-spec");
+                    } else {
+                        row2.classList.add("better-spec");
+                        row1.classList.add("worse-spec");
+                    }
+                }
+            }
+        }
+    }
+
+    function resetHighlights() {
+        document.querySelectorAll(".better-spec, .worse-spec").forEach(el => {
+            el.classList.remove("better-spec", "worse-spec");
+        });
+    }
+
+    function extractNumber(value) {
+        if (!value) return null;
+        const match = String(value).match(/[\d.]+/);
+        return match ? parseFloat(match[0]) : null;
+    }
 </script>
-
-<script>
-document.querySelectorAll('.product-image').forEach(container => {
-    const img = container.querySelector('img');
-    const largeSrc = img.dataset.large || img.src;
-
-    const lens = document.createElement('div');
-    lens.classList.add('magnifier-lens');
-    container.appendChild(lens);
-
-    const zoom = 3;
-
-    lens.style.backgroundImage = `url('${largeSrc}')`;
-    lens.style.backgroundRepeat = "no-repeat";
-    lens.style.backgroundSize = `${img.width * zoom}px ${img.height * zoom}px`;
-
-    container.addEventListener('mousemove', function(e) {
-        const rect = container.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        lens.style.display = "block";
-
-        const lensX = x - lens.offsetWidth / 2;
-        const lensY = y - lens.offsetHeight / 2;
-
-        lens.style.left = `${lensX}px`;
-        lens.style.top = `${lensY}px`;
-
-        const bgX = -((x * zoom) - lens.offsetWidth / 2);
-        const bgY = -((y * zoom) - lens.offsetHeight / 2);
-
-        lens.style.backgroundPosition = `${bgX}px ${bgY}px`;
-    });
-
-    container.addEventListener('mouseleave', () => {
-        lens.style.display = "none";
-    });
-});
-</script>
-
 {% endblock %}

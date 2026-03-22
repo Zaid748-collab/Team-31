@@ -1,0 +1,28 @@
+{% comment %}
+  Currency Switcher Component
+  ─────────────────────────────────────────────────────────────────
+  Usage: {% include 'currency_switcher.html' %}
+  Place this inside your navbar / header template.
+  Make sure base.html loads {% static 'css/currency.css' %}
+  and {% static 'js/currency.js' %} (see instructions below).
+{% endcomment %}
+
+<div id="currency-switcher" aria-label="Currency selector">
+  <button
+    id="currency-btn"
+    type="button"
+    onclick="toggleDropdown()"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="currency-dropdown"
+  >
+    <!-- Populated by currency.js on DOMContentLoaded -->
+    <span class="currency-chevron">▾</span>
+  </button>
+
+  <div id="currency-dropdown" role="listbox" aria-label="Select currency">
+    <ul id="currency-list">
+      <!-- Options injected by currency.js -->
+    </ul>
+  </div>
+</div>
